@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>register demo</title>
+</head>
+<body>
+	<form action="DemoRegister" method="POST">
+	ユーザID：<input type="text" name="userId">
+	<br />
+	氏名：<input type="text" name="userName" />
+	<br />
+	所属部署：<input list="Depts" name="userDept" >
+	<datalist id="Depts">
+		<option value="部署001">
+		<option value="部署002">
+		<option value="部署003">
+		<option value="部署004">
+	</datalist>
+	<input type="submit" value="登録" />
+	</form>
+</body>
+</html>
