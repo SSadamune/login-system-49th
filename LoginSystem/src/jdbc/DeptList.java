@@ -5,9 +5,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-public class InsertToDept {
-	public static void main(String[] args) {
+public class DeptList {
+	int size;
+	ArrayList<Integer> no = new ArrayList<Integer>();
+	ArrayList<String> name = new ArrayList<String>();
+
+	//構造メソッド：sizeを確認
+	public DeptList() {
 		Connection conn = null;
 		Statement stmt = null;
         ResultSet rset = null;
@@ -18,32 +24,28 @@ public class InsertToDept {
         String password = "pwpsql";
 
         try{
-            //PostgreSQLへ接続
-            conn = DriverManager.getConnection(url, user, password);
+        	//PostgreSQLへ接続
+        	conn = DriverManager.getConnection(url, user, password);
 
             //自動コミットOFF
             conn.setAutoCommit(false);
             System.out.println("Opened database successfully");
 
-            //INSERT文の実行
+            //SELECT文の実行
             stmt = conn.createStatement();
-            int deptNo = 2003;
-            String deptName = "test部署1";
-            String sql = "INSERT INTO T_DEPT VALUES("
-                  + deptNo + ",'" + deptName + "');";
-            stmt.executeUpdate(sql);
-
-            deptNo = 2004;
-            deptName = "test部署2";
-            sql = "INSERT INTO T_DEPT VALUES("
-                  + deptNo + ",'" + deptName + "');";
-            stmt.executeUpdate(sql);
-
-            conn.commit();
+            String sql = "SELECT * FROM T_DEPT";
+            rset = stmt.executeQuery(sql);
+            
+            size = 0;
+            //SELECT結果の受け取り、Integer.parseInt()を使ってintへ変換
+            while(rset.next()){
+            	no.add(rset.getInt("DEPT_NO"));
+            	name.add(rset.getString("DEPT_NAME"));
+            	size += 1;
+            }
         }
         catch (SQLException e){
-        	e.printStackTrace();
-        	System.exit(0);
+            e.printStackTrace();
         }
         finally {
             try {
@@ -55,6 +57,5 @@ public class InsertToDept {
                 e.printStackTrace();
             }
         }
-        System.out.println("Records created successfully");
 	}
 }
