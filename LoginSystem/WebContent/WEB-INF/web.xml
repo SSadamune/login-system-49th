@@ -4,12 +4,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
 	http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
-	<!--
+
 	<servlet>
-    	<servlet-name>DemoRegister</servlet-name>
-		<servlet-class>demo/DemoRegister</servlet-class>
+    	<servlet-name>Register</servlet-name>
+		<servlet-class>api/Register</servlet-class>
 	</servlet>
-	-->
+
 </web-app>
 
 
