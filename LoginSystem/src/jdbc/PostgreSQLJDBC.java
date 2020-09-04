@@ -2,27 +2,43 @@ package jdbc;
 
 public class PostgreSQLJDBC {
    public static void main(String args[]) {
-	   //部署情報を取得
-	   DeptList dpList = new DeptList();
-	   System.out.println(dpList.size);
-	   System.out.println(dpList.no);
-	   System.out.println(dpList.name);
+
+	   //部署情報を取得 arraylist
+	   DeptList deptList = new DeptList();
+
+	   System.out.println(deptList.size);
+	   System.out.println(deptList.no);
+	   System.out.println(deptList.name);
+	  
+
+	   //ユーザー情報を挿入
 
 	   /*
-	   //ユーザー情報を挿入
 	   UserInf testUser1 = new UserInf();
 
-	   testUser1.userId(1000001);
+	   testUser1.userId(1000002);
 	   testUser1.userPw("testPw");
-	   testUser1.userName("张三");
+	   testUser1.userName("李四");
 	   testUser1.userDeptNo(1002);
 	   testUser1.userRgstDate("2020-09-01");
 
 	   testUser1.insert();
 	   */
+
+	   /*
+	   int currentUserId = 1000000;
+
+	   UserInf testUser2 = new UserInf();
+	   testUser2.selectInf(currentUserId);
+
+	   String currentUserName = testUser2.name;
+	   int currentUserDept = testUser2.deptNo;
+	   String currentUserRgstDate = testUser2.rgstDate;
+
+	   System.out.println(currentUserName);
+	   */
    }
 }
-
 
 
 

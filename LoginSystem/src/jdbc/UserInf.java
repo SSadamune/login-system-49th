@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class UserInf {
 	int id;
-	String password;
+	String userPassword;
 	String name;
 	int deptNo;
 	String rgstDate;
@@ -21,7 +21,7 @@ public class UserInf {
 		id = userId;
 	}
 	public void userPw(String userPw) {
-		password = userPw;
+		userPassword = userPw;
 	}
 	public void userName(String userName) {
 		name = userName;
@@ -55,7 +55,7 @@ public class UserInf {
             //INSERT文の実行
             stmt = conn.createStatement();
             String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
-                  + id + ",'" + password + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
+                  + id + ",'" + userPassword + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
             stmt.executeUpdate(sql);
             conn.commit();
         }
@@ -76,4 +76,52 @@ public class UserInf {
         }
         System.out.println("Records created successfully");
     }
+
+	//テーブルからユーザー情報を取得
+	public void selectInf(int userId) {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+
+		//接続文字列
+		String url = "jdbc:postgresql://localhost:5432/loginsystem";
+		String user = "postgres";
+		String password = "pwpsql";
+
+		try{
+			//PostgreSQLへ接続
+			conn = DriverManager.getConnection(url, user, password);
+
+			//自動コミットOFF
+			conn.setAutoCommit(false);
+			System.out.println("Opened database successfully");
+
+			//SELECT文の実行
+			stmt = conn.createStatement();
+			String sql = "select USER_NAME, DEPT_NO, RGST_DATE from T_USER \r\n" +
+					"where USER_ID = "+ userId +";";
+			rset = stmt.executeQuery(sql);
+
+			//SELECT結果の受け取り
+			while(rset.next()){
+				name = rset.getString("USER_NAME");
+				deptNo = rset.getInt("DEPT_NO");
+				rgstDate = rset.getString("RGST_DATE");
+			}
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(rset != null)rset.close();
+				if(stmt != null)stmt.close();
+				if(conn != null)conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+
+		}
+	}
 }
