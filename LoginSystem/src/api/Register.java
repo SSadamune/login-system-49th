@@ -22,18 +22,6 @@ public class Register extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		// test the problem in 2020/09/07
-		UserInf currentUser = new UserInf();
-
-		currentUser.userId(1003001);
-		currentUser.userPw("testPW");
-		currentUser.userName("テストなまえ");
-		currentUser.userDeptNo(1001);
-		currentUser.userRgstDate("2020-09-07");
-
-		currentUser.insert();
-
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 

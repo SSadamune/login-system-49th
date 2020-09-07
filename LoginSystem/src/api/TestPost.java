@@ -29,26 +29,13 @@ public class TestPost extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html;charset=UTF-8");
 
-		PrintWriter out = response.getWriter();
-		String title = "マイページ";
-
 		String userName = new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8");
 
-		String docType = "<!DOCTYPE html> \n";
-		out.println(docType +
-				"<html>\n" +
-				"<head><title>" + title + "</title></head>\n" +
-				"<body bgcolor=\"#f0f0f0\">\n" +
-				"<h1 align=\"center\">" + title + "</h1>\n" +
-				"<ul>\n" +
-				"  <li><b>ユーザID</b>："
-				+ request.getParameter("userId") + "\n" +
-				"  <li><b>氏名</b>："
-				+ userName + "\n" +
-				"  <li><b>所属部署No</b>："
-				+ request.getParameter("userDeptNo") + "\n" +
-				"</ul>\n" +
-				"</body></html>");
+		System.out.println("IDは" + request.getParameter("userId"));
+		System.out.println("名前は" + userName);
+		System.out.println("部署番号は" + request.getParameter("userDeptNo"));
+
+		response.getWriter().append("user id is : ").append(request.getParameter("userId"));
 	}
 
 }
