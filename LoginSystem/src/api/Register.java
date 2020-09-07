@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public Register() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	public Register() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -26,13 +26,13 @@ public class Register extends HttpServlet {
 		// test the problem in 2020/09/07
 		UserInf currentUser = new UserInf();
 
-        currentUser.userId(2000002);
-        currentUser.userPw("testPW");
-        currentUser.userName("张123");
-        currentUser.userDeptNo(1001);
-        currentUser.userRgstDate("2020-09-07");
+		currentUser.userId(2000002);
+		currentUser.userPw("testPW");
+		currentUser.userName("张123");
+		currentUser.userDeptNo(1001);
+		currentUser.userRgstDate("2020-09-07");
 
-        currentUser.insert();
+		currentUser.insert();
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -43,13 +43,13 @@ public class Register extends HttpServlet {
 
 		UserInf currentUser = new UserInf();
 
-        currentUser.userId(Integer.parseInt(request.getParameter("userId")));
-        currentUser.userPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
-        currentUser.userName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
-        currentUser.userDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
-        currentUser.userRgstDate("2020-09-07");
+		currentUser.userId(Integer.parseInt(request.getParameter("userId")));
+		currentUser.userPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
+		currentUser.userName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
+		currentUser.userDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
+		currentUser.userRgstDate("2020-09-07");
 
-        currentUser.insert();
+		currentUser.insert();
 
 	}
 
