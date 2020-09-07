@@ -7,16 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserInf {
-	int id;
-	String userPassword;
-	String name;
-	int deptNo;
-	String rgstDate;
+	public int id;
+	public String userPassword;
+	public String name;
+	public int deptNo;
+	public String rgstDate;
 
 	public UserInf() {
 	}
 
-	//各情報を設置
+	//use there methods to assign user inf.
 	public void userId(int userId) {
 		id = userId;
 	}
@@ -33,7 +33,7 @@ public class UserInf {
 		rgstDate = userRgstDate;
 	}
 
-	//テーブル T_USER に挿入
+	//insert user inf. to table t_user
 	public void insert(){
         Connection conn = null;
         Statement stmt = null;
@@ -77,7 +77,7 @@ public class UserInf {
         System.out.println("Records created successfully");
     }
 
-	//テーブルからユーザー情報を取得
+	//select all the inf. from t_user whose id = userId
 	public void selectInf(int userId) {
 		Connection conn = null;
 		Statement stmt = null;

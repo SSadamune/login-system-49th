@@ -1,7 +1,7 @@
 package api;
 
+import jdbc.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +22,17 @@ public class Register extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		UserInf currentUser = new UserInf();
+
+        currentUser.userId(2000002);
+        currentUser.userPw("testPW");
+        currentUser.userName("张123");
+        currentUser.userDeptNo(1001);
+        currentUser.userRgstDate("2020-09-07");
+
+        currentUser.insert();
+        
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -29,26 +40,18 @@ public class Register extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html;charset=UTF-8");
 
-		PrintWriter out = response.getWriter();
-        String title = "マイページ";
+		/*
+		UserInf currentUser = new UserInf();
 
-        String userName = new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8");
-        String userDept = new String(request.getParameter("userDept").getBytes("ISO8859-1"),"UTF-8");
-        String docType = "<!DOCTYPE html> \n";
-        out.println(docType +
-            "<html>\n" +
-            "<head><title>" + title + "</title></head>\n" +
-            "<body bgcolor=\"#f0f0f0\">\n" +
-            "<h1 align=\"center\">" + title + "</h1>\n" +
-            "<ul>\n" +
-            "  <li><b>ユーザID</b>："
-            + request.getParameter("userId") + "\n" +
-            "  <li><b>氏名</b>："
-            + userName + "\n" +
-            "  <li><b>所属部署</b>："
-            + userDept + "\n" +
-            "</ul>\n" +
-            "</body></html>");
+        currentUser.userId(Integer.parseInt(request.getParameter("userId")));
+        currentUser.userPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
+        currentUser.userName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
+        currentUser.userDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
+        currentUser.userRgstDate("2020-09-07");
+
+        currentUser.insert();
+        */
+
 	}
 
 }
