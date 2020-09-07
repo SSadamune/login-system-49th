@@ -26,9 +26,9 @@ public class Register extends HttpServlet {
 		// test the problem in 2020/09/07
 		UserInf currentUser = new UserInf();
 
-		currentUser.userId(2000002);
+		currentUser.userId(1003001);
 		currentUser.userPw("testPW");
-		currentUser.userName("张123");
+		currentUser.userName("テストなまえ");
 		currentUser.userDeptNo(1001);
 		currentUser.userRgstDate("2020-09-07");
 
