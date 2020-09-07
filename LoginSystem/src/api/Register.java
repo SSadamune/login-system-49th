@@ -22,7 +22,8 @@ public class Register extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
+		// test the problem in 2020/09/07
 		UserInf currentUser = new UserInf();
 
         currentUser.userId(2000002);
@@ -32,7 +33,7 @@ public class Register extends HttpServlet {
         currentUser.userRgstDate("2020-09-07");
 
         currentUser.insert();
-        
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -40,7 +41,6 @@ public class Register extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("text/html;charset=UTF-8");
 
-		/*
 		UserInf currentUser = new UserInf();
 
         currentUser.userId(Integer.parseInt(request.getParameter("userId")));
@@ -50,7 +50,6 @@ public class Register extends HttpServlet {
         currentUser.userRgstDate("2020-09-07");
 
         currentUser.insert();
-        */
 
 	}
 
