@@ -5,6 +5,7 @@ import jdbc.*;
 public class TestRegister {
 	public static void main(String args[]) {
 
+		// TODO create a new User and insert its information into table
 		UserInf currentUser = new UserInf();
 
 		currentUser.userId(1005001);
