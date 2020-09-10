@@ -1,4 +1,4 @@
-package jdbc;
+package com.loginsystem.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,12 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DeptList {
-	int size;
-	ArrayList<Integer> no = new ArrayList<Integer>();
-	ArrayList<String> name = new ArrayList<String>();
+	private int size;
+	private ArrayList<Integer> no = new ArrayList<Integer>();
+	private ArrayList<String> name = new ArrayList<String>();
 
 	//構造メソッド：sizeを確認
 	public DeptList() {
+
 		Connection conn = null;
 		Statement stmt = null;
         ResultSet rset = null;
@@ -35,7 +36,7 @@ public class DeptList {
             stmt = conn.createStatement();
             String sql = "SELECT * FROM T_DEPT";
             rset = stmt.executeQuery(sql);
-            
+
             size = 0;
             //SELECT結果の受け取り、Integer.parseInt()を使ってintへ変換
             while(rset.next()){
@@ -58,4 +59,15 @@ public class DeptList {
             }
         }
 	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public ArrayList<Integer> getNo() {
+		return no;
+	}
+
 }
+
+

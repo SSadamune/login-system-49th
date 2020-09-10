@@ -1,5 +1,6 @@
-package api;
+package com.loginsystem.api;
 
+import com.loginsystem.db.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,35 +9,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class TestPost
+ * Servlet implementation class Register
  */
-@WebServlet("/TestPost")
-public class TestPost extends HttpServlet {
+@WebServlet("/api/v1/Register")
+public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public TestPost() {
+	public Register() {
 		super();
-		// TODO Do nothing
+		// TODO Auto-generated constructor stub
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Do nothing
+		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO POSTデータ[userName, userId, userDeptNo]を受け取る
+		// TODO insert the posted data into table
 		response.setContentType("text/html;charset=UTF-8");
 
-		String userName = new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8");
 
-		//these will showed on console
-		System.out.println("IDは" + request.getParameter("userId"));
-		System.out.println("名前は" + userName);
-		System.out.println("部署番号は" + request.getParameter("userDeptNo"));
+		UserInf currentUser = new UserInf();
 
-		//and this will showed on your browser
+		currentUser.setId(Integer.parseInt(request.getParameter("userId")));
+		currentUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
+		currentUser.setName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
+		currentUser.setDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
+		currentUser.setRgstDate("2020-09-07");
+
+		currentUser.insertIntoDb();
+
 		response.getWriter().append("user id is : ").append(request.getParameter("userId"));
+
 	}
 
 }

@@ -1,4 +1,4 @@
-package jdbc;
+package com.loginsystem.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,46 +7,70 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class UserInf {
-	public int id;
-	public String userPassword;
-	public String name;
-	public int deptNo;
-	public String rgstDate;
+	private int id;
+	private String Pw;
+	private String name;
+	private int deptNo;
+	private String rgstDate;
 
 	public UserInf() {
 	}
 
 	//use there methods to assign user inf.
-	public void userId(int userId) {
-		id = userId;
+	public void setId(int userId) {
+		this.id = userId;
 	}
-	public void userPw(String userPw) {
-		userPassword = userPw;
+
+	public int getId() {
+		return id;
 	}
-	public void userName(String userName) {
-		name = userName;
+
+	public void setPw(String userPw) {
+		this.Pw = userPw;
 	}
-	public void userDeptNo(int userDeptNo) {
-		deptNo = userDeptNo;
+
+	public String getPw() {
+		return Pw;
 	}
-	public void userRgstDate(String userRgstDate) {
-		rgstDate = userRgstDate;
+
+	public void setName(String userName) {
+		this.name = userName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setDeptNo(int userDeptNo) {
+		this.deptNo = userDeptNo;
+	}
+
+	public int getDeptNo() {
+		return deptNo;
+	}
+
+	public void setRgstDate(String userRgstDate) {
+		this.rgstDate = userRgstDate;
+	}
+
+	public String getRgstDate() {
+		return rgstDate;
 	}
 
 	//insert user inf. to table t_user
-	public void insert(){
+	public void insertIntoDb(){
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
 
 		//接続文字列
 		String url = "jdbc:postgresql://localhost:5432/loginsystem";
-		String user = "postgres";
-		String password = "pwpsql";
+		String pgUser = "postgres";
+		String pgPassword = "pwpsql";
 
 		try{
 			//PostgreSQLへ接続
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(url, pgUser, pgPassword);
 
 			//自動コミットOFF
 			conn.setAutoCommit(false);
@@ -55,7 +79,7 @@ public class UserInf {
 			//INSERT文の実行
 			stmt = conn.createStatement();
 			String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
-					+ id + ",'" + userPassword + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
+					+ id + ",'" + Pw + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
 			stmt.executeUpdate(sql);
 			conn.commit();
 		}
@@ -78,7 +102,7 @@ public class UserInf {
 	}
 
 	//select all the inf. from t_user whose id = userId
-	public void selectInf(int userId) {
+	public void selectFromDb(int userId) {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
