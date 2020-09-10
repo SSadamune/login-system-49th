@@ -66,11 +66,11 @@ public class UserInf {
 		//接続文字列
 		String url = "jdbc:postgresql://localhost:5432/loginsystem";
 		String pgUser = "postgres";
-		String pgPassword = "pwpsql";
+		String pgPw = "pwpsql";
 
 		try{
 			//PostgreSQLへ接続
-			conn = DriverManager.getConnection(url, pgUser, pgPassword);
+			conn = DriverManager.getConnection(url, pgUser, pgPw);
 
 			//自動コミットOFF
 			conn.setAutoCommit(false);

@@ -12,7 +12,7 @@ public class DeptList {
 	private ArrayList<Integer> no = new ArrayList<Integer>();
 	private ArrayList<String> name = new ArrayList<String>();
 
-	//構造メソッド：sizeを確認
+	//構造メソッド：DBから情報を取得、パラメータを設定
 	public DeptList() {
 
 		Connection conn = null;
@@ -21,12 +21,12 @@ public class DeptList {
 
         //接続文字列
         String url = "jdbc:postgresql://localhost:5432/loginsystem";
-        String user = "postgres";
-        String password = "pwpsql";
+        String pgUser = "postgres";
+        String pgPw = "pwpsql";
 
         try{
         	//PostgreSQLへ接続
-        	conn = DriverManager.getConnection(url, user, password);
+        	conn = DriverManager.getConnection(url, pgUser, pgPw);
 
             //自動コミットOFF
             conn.setAutoCommit(false);
@@ -60,10 +60,12 @@ public class DeptList {
         }
 	}
 
+	//サイズを示す
 	public int getSize() {
 		return size;
 	}
 
+	//部署番号の列を ArrayList として示す
 	public ArrayList<Integer> getNo() {
 		return no;
 	}
