@@ -39,6 +39,8 @@ public class Register extends HttpServlet {
 		Date dNow = new Date( );
 	    SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 
+	    //Validation未実装
+
 		UserInf currentUser = new UserInf();
 
 		currentUser.setId(Integer.parseInt(request.getParameter("userId")));
@@ -50,7 +52,6 @@ public class Register extends HttpServlet {
 		String insertResult = currentUser.insertIntoDb();
 
 		response.getWriter().append(insertResult);
-
 
 	}
 

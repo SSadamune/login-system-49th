@@ -57,7 +57,7 @@ public class UserInf {
 		return rgstDate;
 	}
 
-	//insert user inf. to table t_user
+	//insert user inf. into table t_user
 	public String insertIntoDb(){
 		Connection conn = null;
 		Statement stmt = null;
@@ -145,6 +145,7 @@ public class UserInf {
 		}
 	}
 
+	// check the id & pw
 	public String checkIdPw() {
 		return checkIdPw(id, pw);
 	}
