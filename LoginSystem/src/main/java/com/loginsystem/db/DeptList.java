@@ -18,15 +18,11 @@ public class DeptList {
 		Connection conn = null;
 		Statement stmt = null;
         ResultSet rset = null;
+		ConnectDb cd = new ConnectDb();
 
-        //接続文字列
-        String url = "jdbc:postgresql://localhost:5432/loginsystem";
-        String pgUser = "postgres";
-        String pgPw = "pwpsql";
-
-        try{
-        	//PostgreSQLへ接続
-        	conn = DriverManager.getConnection(url, pgUser, pgPw);
+		try{
+			//PostgreSQLへ接続
+			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
             //自動コミットOFF
             conn.setAutoCommit(false);

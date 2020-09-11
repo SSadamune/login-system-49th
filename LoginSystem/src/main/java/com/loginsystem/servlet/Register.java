@@ -29,7 +29,11 @@ public class Register extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO insert the posted data into table
+		/* TODO
+		 * insert the posted data into table
+		 * content-type:application/x-www-form-urlencoded
+		 * userId=(int)&userName=(String)&userDeptNo=(int)&userPw=(String)
+		 */
 		response.setContentType("text/html;charset=UTF-8");
 
 		Date dNow = new Date( );

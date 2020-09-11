@@ -3,15 +3,13 @@ package com.loginsystem.db;
 public class PostgreSQLJDBC {
 	public static void main(String args[]) {
 
-		/*
 		//部署情報を取得
 		DeptList deptList = new DeptList();
 
 		System.out.println(deptList.getSize());
 		System.out.println(deptList.getNo());
-		*/
 
-		
+
 		//ユーザー情報を挿入
 		UserInf testUser1 = new UserInf();
 
@@ -21,9 +19,9 @@ public class PostgreSQLJDBC {
 		testUser1.setDeptNo(1002);
 		testUser1.setRgstDate("2020-09-01");
 
-		testUser1.insertIntoDb();
-		
-		/*
+		System.out.println(testUser1.insertIntoDb());
+
+
 		//ユーザー情報を取得
 		int currentUserId = 1000003;
 
@@ -35,8 +33,15 @@ public class PostgreSQLJDBC {
 		String currentUserRgstDate = testUser2.getRgstDate();
 
 		System.out.println(currentUserName);
-		*/
 
+		//パスワード検証
+		UserInf testUser3 = new UserInf();
+		System.out.println(testUser3.checkIdPw(1000005, "testPw"));
+		System.out.println(testUser3.checkIdPw(1000005, "falsepw"));
+		System.out.println(testUser3.checkIdPw(2000005, "testPw"));
+		testUser3.setId(1000005);
+		testUser3.setPw("testPw");
+		System.out.println(testUser3.checkIdPw());
 	}
 }
 
