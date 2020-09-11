@@ -58,7 +58,7 @@ public class UserInf {
 	}
 
 	//insert user inf. to table t_user
-	public void insertIntoDb(){
+	public String insertIntoDb(){
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -82,10 +82,14 @@ public class UserInf {
 					+ id + ",'" + Pw + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
 			stmt.executeUpdate(sql);
 			conn.commit();
+			return "Inserted successfully";
 		}
-		catch (SQLException e){
-			e.printStackTrace();
-			System.exit(0);
+		catch (SQLException ex){
+			String sqlEx = "SQLException: \n";
+			for(Throwable e : ex ) {
+				sqlEx += e;
+        	}
+			return sqlEx;
 		}
 		finally {
 			try {
@@ -93,12 +97,12 @@ public class UserInf {
 				if(stmt != null)stmt.close();
 				if(conn != null)conn.close();
 			}
-			catch (SQLException e){
-				e.printStackTrace();
+			catch (SQLException ex){
+				for(Throwable e : ex ) {
+	        		System.out.println("Error encountered: " + e);
+	        	}
 			}
-
 		}
-		System.out.println("Records created successfully");
 	}
 
 	//select all the inf. from t_user whose id = userId
@@ -133,8 +137,8 @@ public class UserInf {
 				rgstDate = rset.getString("RGST_DATE");
 			}
 		}
-		catch (SQLException e){
-			e.printStackTrace();
+		catch (SQLException ex){
+			ex.printStackTrace();
 		}
 		finally {
 			try {
@@ -142,8 +146,8 @@ public class UserInf {
 				if(stmt != null)stmt.close();
 				if(conn != null)conn.close();
 			}
-			catch (SQLException e){
-				e.printStackTrace();
+			catch (SQLException ex){
+				ex.printStackTrace();
 			}
 
 		}

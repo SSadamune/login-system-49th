@@ -3,13 +3,15 @@ package com.loginsystem.db;
 public class PostgreSQLJDBC {
 	public static void main(String args[]) {
 
+		/*
 		//部署情報を取得
 		DeptList deptList = new DeptList();
 
 		System.out.println(deptList.getSize());
 		System.out.println(deptList.getNo());
+		*/
 
-		/*
+		
 		//ユーザー情報を挿入
 		UserInf testUser1 = new UserInf();
 
@@ -20,7 +22,8 @@ public class PostgreSQLJDBC {
 		testUser1.setRgstDate("2020-09-01");
 
 		testUser1.insertIntoDb();
-
+		
+		/*
 		//ユーザー情報を取得
 		int currentUserId = 1000003;
 

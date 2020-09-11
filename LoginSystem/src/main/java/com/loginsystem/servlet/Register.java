@@ -1,7 +1,10 @@
-package com.loginsystem.api;
+package com.loginsystem.servlet;
 
 import com.loginsystem.db.*;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Register
  */
-@WebServlet("/api/v1/Register")
+@WebServlet("/api/v1.0/Register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -29,6 +32,8 @@ public class Register extends HttpServlet {
 		// TODO insert the posted data into table
 		response.setContentType("text/html;charset=UTF-8");
 
+		Date dNow = new Date( );
+	    SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 
 		UserInf currentUser = new UserInf();
 
@@ -36,11 +41,12 @@ public class Register extends HttpServlet {
 		currentUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
 		currentUser.setName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
 		currentUser.setDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
-		currentUser.setRgstDate("2020-09-07");
+		currentUser.setRgstDate(ft.format(dNow));
 
-		currentUser.insertIntoDb();
+		String insertResult = currentUser.insertIntoDb();
 
-		response.getWriter().append("user id is : ").append(request.getParameter("userId"));
+		response.getWriter().append(insertResult);
+
 
 	}
 

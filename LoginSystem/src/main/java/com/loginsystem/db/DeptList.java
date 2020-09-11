@@ -45,8 +45,10 @@ public class DeptList {
             	size += 1;
             }
         }
-        catch (SQLException e){
-            e.printStackTrace();
+        catch (SQLException ex){
+        	for(Throwable e : ex ) {
+        		System.out.println("Error encountered: " + e);
+        	}
         }
         finally {
             try {
@@ -54,8 +56,8 @@ public class DeptList {
                 if(stmt != null)stmt.close();
                 if(conn != null)conn.close();
             }
-            catch (SQLException e){
-                e.printStackTrace();
+            catch (SQLException ex){
+                ex.printStackTrace();
             }
         }
 	}
