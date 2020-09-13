@@ -58,47 +58,30 @@ public class UserInf {
 	}
 
 	//insert user inf. into table t_user
-	public String insertIntoDb(){
+	public String insertIntoDb() throws SQLException{
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
 
-		try{
-			//PostgreSQLへ接続
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-			//自動コミットOFF
-			conn.setAutoCommit(false);
-			System.out.println("Opened database successfully");
+		//PostgreSQLへ接続
+		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-			//INSERT文の実行
-			stmt = conn.createStatement();
-			String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
-					+ id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
-			stmt.executeUpdate(sql);
-			conn.commit();
-			return "Inserted successfully";
-		}
-		catch (SQLException ex){
-			String sqlEx = "SQLException: \n";
-			for(Throwable e : ex ) {
-				sqlEx += e;
-			}
-			return sqlEx;
-		}
-		finally {
-			try {
-				if(rset != null)rset.close();
-				if(stmt != null)stmt.close();
-				if(conn != null)conn.close();
-			}
-			catch (SQLException ex){
-				for(Throwable e : ex ) {
-					System.out.println("Error encountered: " + e);
-				}
-			}
-		}
+		//自動コミットOFF
+		conn.setAutoCommit(false);
+		System.out.println("Opened database successfully");
+
+		//INSERT文の実行
+		stmt = conn.createStatement();
+		String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
+				+ id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
+		stmt.executeUpdate(sql);
+		conn.commit();
+
+		if(stmt != null)stmt.close();
+		if(conn != null)conn.close();
+
+		return "id = " + id + "inserted correctly";
 	}
 
 	//select all the inf. from t_user whose id = userId
@@ -146,55 +129,35 @@ public class UserInf {
 	}
 
 	// check the id & pw
-	public String checkIdPw() {
+	public String checkIdPw() throws SQLException {
 		return checkIdPw(id, pw);
 	}
 
-	public String checkIdPw(int checkId, String checkPw) {
+	public String checkIdPw(int checkId, String checkPw) throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
 
-		try{
-			//PostgreSQLへ接続
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+		//PostgreSQLへ接続
+		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-			//自動コミットOFF
-			conn.setAutoCommit(false);
-			System.out.println("Opened database successfully");
+		//自動コミットOFF
+		conn.setAutoCommit(false);
+		System.out.println("Opened database successfully");
 
-			//SELECT文の実行
-			stmt = conn.createStatement();
-			String sql = "select USER_PW from T_USER \r\n" +
-					"where USER_ID = "+ checkId +";";
-			rset = stmt.executeQuery(sql);
+		//SELECT文の実行
+		stmt = conn.createStatement();
+		String sql = "select USER_PW from T_USER \r\n" +
+				"where USER_ID = "+ checkId +";";
+		rset = stmt.executeQuery(sql);
 
-			if (!rset.next()) {
-				return "User " + checkId + " does not exist";
-			} else {
-				String truePw = rset.getString("USER_PW");
-				return truePw.equals(checkPw) ? "password correct" : "password incorrect";
-			}
+		if (!rset.next()) {
+			return "User " + checkId + " does not exist";
+		} else {
+			String truePw = rset.getString("USER_PW");
+			return truePw.equals(checkPw) ? "password correct" : "password incorrect";
 		}
-		catch (SQLException ex){
-			String sqlEx = "SQLException: \n";
-			for(Throwable e : ex ) {
-				sqlEx += e;
-			}
-			return sqlEx;
-		}
-		finally {
-			try {
-				if(rset != null)rset.close();
-				if(stmt != null)stmt.close();
-				if(conn != null)conn.close();
-			}
-			catch (SQLException ex){
-				for(Throwable e : ex ) {
-					System.out.println("Error encountered: " + e);
-				}
-			}
-		}
+
 	}
 }

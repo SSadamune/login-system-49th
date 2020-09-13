@@ -1,5 +1,7 @@
 package com.loginsystem.db;
 
+import java.sql.SQLException;
+
 public class PostgreSQLJDBC {
 	public static void main(String args[]) {
 
@@ -8,18 +10,27 @@ public class PostgreSQLJDBC {
 
 		System.out.println(deptList.getSize());
 		System.out.println(deptList.getNo());
-
+		System.out.println("------");
 
 		//ユーザー情報を挿入
 		UserInf testUser1 = new UserInf();
 
 		testUser1.setId(1000005);
 		testUser1.setPw("testPw");
-		testUser1.setName("猪");
+		testUser1.setName("テストなまえ");
 		testUser1.setDeptNo(1002);
 		testUser1.setRgstDate("2020-09-01");
 
-		System.out.println(testUser1.insertIntoDb());
+		try {
+			System.out.println(testUser1.insertIntoDb());
+		} catch (SQLException ex) {
+			String sqlEx = "SQLException: \n";
+			for(Throwable e : ex ) {
+				sqlEx += e;
+			}
+			System.out.println(sqlEx);
+		}
+		System.out.println("------");
 
 
 		//ユーザー情報を取得
@@ -33,15 +44,39 @@ public class PostgreSQLJDBC {
 		String currentUserRgstDate = testUser2.getRgstDate();
 
 		System.out.println(currentUserName);
+		System.out.println(currentUserDept);
+		System.out.println(currentUserRgstDate);
+		System.out.println("------");
 
 		//パスワード検証
-		UserInf testUser3 = new UserInf();
-		System.out.println(testUser3.checkIdPw(1000005, "testPw"));
-		System.out.println(testUser3.checkIdPw(1000005, "falsepw"));
-		System.out.println(testUser3.checkIdPw(2000005, "testPw"));
-		testUser3.setId(1000005);
-		testUser3.setPw("testPw");
-		System.out.println(testUser3.checkIdPw());
+		try {
+			UserInf testUser3 = new UserInf();
+			System.out.println(testUser3.checkIdPw(1000005, "testPw"));
+			System.out.println(testUser3.checkIdPw(1000005, "falsepw"));
+			System.out.println(testUser3.checkIdPw(2000005, "testPw"));
+			testUser3.setId(1000005);
+			testUser3.setPw("testPw");
+			System.out.println(testUser3.checkIdPw());
+		} catch (SQLException ex) {
+			String sqlEx = "SQLException: \n";
+			for(Throwable e : ex ) {
+				sqlEx += e;
+			}
+			System.out.println(sqlEx);
+		}
+		System.out.println("------");
+
+		/*
+		try {
+
+		} catch (SQLException ex) {
+			String sqlEx = "SQLException: \n";
+			for(Throwable e : ex ) {
+				sqlEx += e;
+			}
+
+		}
+		*/
 	}
 }
 
