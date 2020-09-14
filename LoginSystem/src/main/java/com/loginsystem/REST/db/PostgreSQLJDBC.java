@@ -1,4 +1,4 @@
-package com.loginsystem.db;
+package com.loginsystem.REST.db;
 
 import java.sql.SQLException;
 
@@ -37,15 +37,23 @@ public class PostgreSQLJDBC {
 		int currentUserId = 1000003;
 
 		UserInf testUser2 = new UserInf();
-		testUser2.selectFromDb(currentUserId);
+		try {
+			testUser2.selectFromDb(currentUserId);
 
-		String currentUserName = testUser2.getName();
-		int currentUserDept = testUser2.getDeptNo();
-		String currentUserRgstDate = testUser2.getRgstDate();
+			String currentUserName = testUser2.getName();
+			int currentUserDept = testUser2.getDeptNo();
+			String currentUserRgstDate = testUser2.getRgstDate();
 
-		System.out.println(currentUserName);
-		System.out.println(currentUserDept);
-		System.out.println(currentUserRgstDate);
+			System.out.println(currentUserName);
+			System.out.println(currentUserDept);
+			System.out.println(currentUserRgstDate);
+		} catch (SQLException ex) {
+			String sqlEx = "SQLException: \n";
+			for(Throwable e : ex ) {
+				sqlEx += e;
+			}
+			System.out.println(sqlEx);
+		}
 		System.out.println("------");
 
 		//パスワード検証
@@ -66,6 +74,7 @@ public class PostgreSQLJDBC {
 		}
 		System.out.println("------");
 
+
 		/*
 		try {
 
@@ -76,7 +85,7 @@ public class PostgreSQLJDBC {
 			}
 
 		}
-		*/
+		 */
 	}
 }
 

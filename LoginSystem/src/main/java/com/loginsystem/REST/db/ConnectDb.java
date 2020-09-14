@@ -1,4 +1,4 @@
-package com.loginsystem.db;
+package com.loginsystem.REST.db;
 
 public class ConnectDb {
 	private final String url = "jdbc:postgresql://localhost:5432/loginsystem";

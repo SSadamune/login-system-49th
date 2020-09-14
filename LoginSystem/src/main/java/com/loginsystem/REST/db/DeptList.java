@@ -1,4 +1,4 @@
-package com.loginsystem.db;
+package com.loginsystem.REST.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

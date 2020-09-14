@@ -1,4 +1,4 @@
-package com.loginsystem.servlet;
+package com.loginsystem.REST.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.loginsystem.db.UserInf;
+import com.loginsystem.REST.db.UserInf;
 
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/api/v1.0/Login")
-public class Login extends HttpServlet {
+@WebServlet("/api/v1.0/Password")
+public class Password extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Login() {
+	public Password() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,17 +47,13 @@ public class Login extends HttpServlet {
 
 		try {
 			UserInf checkUser = new UserInf();
-
 			checkUser.setId(Integer.parseInt(request.getParameter("userId")));
 			checkUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
 			String checkResult = checkUser.checkIdPw();
 			response.getWriter().append(checkResult+"\n");
 			response.getWriter().append(ft.format(dNow));
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException: \n";
-			for(Throwable e : ex ) {
-				sqlEx += e;
-			}
+			String sqlEx = "SQLException\n";
 			response.getWriter().append(sqlEx);
 		}
 

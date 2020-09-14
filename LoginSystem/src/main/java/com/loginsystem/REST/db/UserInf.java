@@ -1,4 +1,4 @@
-package com.loginsystem.db;
+package com.loginsystem.REST.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ public class UserInf {
 	private String pw;
 	private String name;
 	private int deptNo;
-	private String rgstDate;
+	private String registerDate;
 
 	public UserInf() {
 	}
@@ -49,12 +49,12 @@ public class UserInf {
 		return deptNo;
 	}
 
-	public void setRgstDate(String userRgstDate) {
-		this.rgstDate = userRgstDate;
+	public void setRgstDate(String userRegisterDate) {
+		this.registerDate = userRegisterDate;
 	}
 
 	public String getRgstDate() {
-		return rgstDate;
+		return registerDate;
 	}
 
 	//insert user inf. into table t_user
@@ -74,7 +74,7 @@ public class UserInf {
 		//INSERT文の実行
 		stmt = conn.createStatement();
 		String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
-				+ id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + rgstDate + "');";
+				+ id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + registerDate + "');";
 		stmt.executeUpdate(sql);
 		conn.commit();
 
@@ -85,47 +85,33 @@ public class UserInf {
 	}
 
 	//select all the inf. from t_user whose id = userId
-	public void selectFromDb(int userId) {
+	public void selectFromDb(int userId) throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
 
-		try{
-			//PostgreSQLへ接続
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-			//自動コミットOFF
-			conn.setAutoCommit(false);
-			System.out.println("Opened database successfully");
+		//PostgreSQLへ接続
+		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-			//SELECT文の実行
-			stmt = conn.createStatement();
-			String sql = "select USER_NAME, DEPT_NO, RGST_DATE from T_USER \r\n" +
-					"where USER_ID = "+ userId +";";
-			rset = stmt.executeQuery(sql);
+		//自動コミットOFF
+		conn.setAutoCommit(false);
+		System.out.println("Opened database successfully");
 
-			//SELECT結果の受け取り
-			rset.next();
-			this.name = rset.getString("USER_NAME");
-			this.deptNo = rset.getInt("DEPT_NO");
-			this.rgstDate = rset.getString("RGST_DATE");
-			this.id = userId;
-		}
-		catch (SQLException ex){
-			ex.printStackTrace();
-		}
-		finally {
-			try {
-				if(rset != null)rset.close();
-				if(stmt != null)stmt.close();
-				if(conn != null)conn.close();
-			}
-			catch (SQLException ex){
-				ex.printStackTrace();
-			}
+		//SELECT文の実行
+		stmt = conn.createStatement();
+		String sql = "select USER_NAME, DEPT_NO, RGST_DATE from T_USER \r\n" +
+				"where USER_ID = "+ userId +";";
+		rset = stmt.executeQuery(sql);
 
-		}
+		//SELECT結果の受け取り
+		rset.next();
+		this.name = rset.getString("USER_NAME");
+		this.deptNo = rset.getInt("DEPT_NO");
+		this.registerDate = rset.getString("RGST_DATE");
+		this.id = userId;
+
 	}
 
 	// check the id & pw
@@ -149,7 +135,7 @@ public class UserInf {
 		//SELECT文の実行
 		stmt = conn.createStatement();
 		String sql = "select USER_PW from T_USER \r\n" +
-				"where USER_ID = "+ checkId +";";
+				"where USER_ID = " + checkId + ";";
 		rset = stmt.executeQuery(sql);
 
 		if (!rset.next()) {
