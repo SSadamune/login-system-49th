@@ -21,9 +21,10 @@ public class Users extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		/* TODO
-		 * response the data of user
+		 * response information of user
 		 * accept URL like "/users?userId=1004" or "/users/1004"
 		 */
 
@@ -41,23 +42,25 @@ public class Users extends HttpServlet {
 			response.setStatus(200);
 			response.getWriter().append("user : " + getUser.getId() +"\n");
 			response.getWriter().append("name : " + getUser.getName() +"\n");
+
 		} catch (SQLException ex) {
-			//sql state: https://www.postgresql.org/docs/8.4/errcodes-appendix.html
+			// sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
 			if (ex.getSQLState().equals("24000")) {
+				// INVALID CURSOR STATE
 				response.sendError(404, "userId: " + userId + " not found");
+
 			} else {
 				response.sendError(500, "unexpected SQL exception\n"
 						+ "sql state = " + ex.getSQLState() +"\n"
 						+ "error message: " + ex.getLocalizedMessage());
 			}
-
 		}
-
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		/* TODO
-		 * insert the posted data into table
+		 * insert data into table
 		 * content-type:application/x-www-form-urlencoded
 		 * userId=(int)&userName=(String)&userDeptNo=(int)&userPw=(String)
 		 */
@@ -66,7 +69,7 @@ public class Users extends HttpServlet {
 		Date dNow = new Date( );
 		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 
-		//Validation未実装
+		// Validation未実装
 
 		UserInf postUser = new UserInf();
 
@@ -78,21 +81,24 @@ public class Users extends HttpServlet {
 
 		try {
 			postUser.insertIntoDb();
-			response.setStatus(201);//Created
+			response.setStatus(201);
 
 		} catch (SQLException ex) {
-			//sql state: https://www.postgresql.org/docs/8.4/errcodes-appendix.html
+			// sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
 			if (ex.getSQLState().equals("23503")) {
+				// FOREIGN KEY VIOLATION
 				response.sendError(400, "deptNo: " + postUser.getDeptNo() + " unknown");
+
 			} else if (ex.getSQLState().equals("23505")) {
+				// UNIQUE VIOLATION
 				response.sendError(400, "userId: " + postUser.getId() + " exists");
+
 			} else {
 				response.sendError(500, "unexpected SQL exception\n"
 						+ "sql state = " + ex.getSQLState() +"\n"
 						+ "error message: " + ex.getLocalizedMessage());
 			}
 		}
-
 	}
 
 }

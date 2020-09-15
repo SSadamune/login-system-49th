@@ -12,7 +12,7 @@ public class DeptList {
 	private ArrayList<Integer> no = new ArrayList<Integer>();
 	private ArrayList<String> name = new ArrayList<String>();
 
-	//構造メソッド：DBから情報を取得、パラメータを設定
+	//get data from DB
 	public DeptList() throws SQLException{
 
 		Connection conn = null;
@@ -20,48 +20,48 @@ public class DeptList {
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
 		try {
-			//PostgreSQLへ接続
+			//connect PostgreSQL
 			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-			//自動コミットOFF
+			//auto commit OFF
 			conn.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 
-			//SELECT文の実行
+			//run SELECT
 			stmt = conn.createStatement();
 			String sql = "SELECT * FROM T_DEPT";
 			rset = stmt.executeQuery(sql);
 
 			size = 0;
-			//SELECT結果の受け取り、Integer.parseInt()を使ってintへ変換
+			//get the SELECT result
 			while(rset.next()){
 				no.add(rset.getInt("DEPT_NO"));
 				name.add(rset.getString("DEPT_NAME"));
 				size += 1;
 			}
-		}
-		catch (SQLException ex){
+
+		} catch (SQLException ex) {
+			//throw ex to Servlet
 			throw ex;
-		}
-		finally {
+
+		} finally {
 			try {
 				if(rset != null)rset.close();
 				if(stmt != null)stmt.close();
 				if(conn != null)conn.close();
-			}
-			catch (SQLException ex){
-				ex.printStackTrace();
+
+			} catch (SQLException ex){
+				throw ex;
 			}
 		}
-
 	}
 
-	//サイズを示す
+	//show how many dept.s in table
 	public int getSize() {
 		return size;
 	}
 
-	//部署番号の列を ArrayList として示す
+	//show the DeptNo row as ArrayList
 	public ArrayList<Integer> getNo() {
 		return no;
 	}

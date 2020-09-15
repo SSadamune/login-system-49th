@@ -26,12 +26,14 @@ public class Password extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		/* TODO
 		 * check the password is correct or not
 		 * content-type:application/x-www-form-urlencoded
@@ -45,6 +47,7 @@ public class Password extends HttpServlet {
 			checkUser.setId(Integer.parseInt(request.getParameter("userId")));
 			checkUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
 			int checkResult = checkUser.checkIdPw();
+
 			switch (checkResult) {
 			case 200:
 				response.setStatus(200);
@@ -65,7 +68,5 @@ public class Password extends HttpServlet {
 					+ "sql state = " + ex.getSQLState() +"\n"
 					+ "error message: " + ex.getLocalizedMessage());
 		}
-
 	}
-
 }

@@ -16,15 +16,15 @@ public class TestDynamicUrl extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String getPath = request.getPathInfo();
-		String userId = getPath == null ? request.getParameter("userId") : request.getPathInfo().substring(1);
-		System.out.println(getPath);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String userId = request.getPathInfo().substring(1);
+		System.out.println(userId);
 		response.getWriter().append("user : " + userId);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
