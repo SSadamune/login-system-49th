@@ -2,8 +2,6 @@ package com.loginsystem.REST.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,26 +33,35 @@ public class Password extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* TODO
-		 * check the password correct or not
+		 * check the password is correct or not
 		 * content-type:application/x-www-form-urlencoded
 		 * userId=(int)&userPw=(String)
 		 */
 
 		response.setContentType("text/html;charset=UTF-8");
 
-		Date dNow = new Date();
-		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
-
 		try {
 			UserInf checkUser = new UserInf();
 			checkUser.setId(Integer.parseInt(request.getParameter("userId")));
 			checkUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
-			String checkResult = checkUser.checkIdPw();
-			response.getWriter().append(checkResult+"\n");
-			response.getWriter().append(ft.format(dNow));
+			int checkResult = checkUser.checkIdPw();
+			switch (checkResult) {
+			case 200:
+				response.setStatus(200);
+				//Date dNow = new Date();
+				//SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
+				//response.getWriter().append(ft.format(dNow));
+				break;
+			case 401:
+				response.sendError(401, "password incorrect" );
+				break;
+			case 404:
+				response.sendError(404, "user ID: " + checkUser.getId() + " not found" );
+				break;
+			}
+
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException\n";
-			response.getWriter().append(sqlEx);
+			response.sendError(500, "unexpected SQL exception" );
 		}
 
 	}

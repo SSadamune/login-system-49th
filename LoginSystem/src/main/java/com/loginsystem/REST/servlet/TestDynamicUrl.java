@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 public class TestDynamicUrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public TestDynamicUrl() {
-        super();
-    }
+	public TestDynamicUrl() {
+		super();
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String getPath = request.getPathInfo();

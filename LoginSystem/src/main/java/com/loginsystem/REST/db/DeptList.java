@@ -17,45 +17,45 @@ public class DeptList {
 
 		Connection conn = null;
 		Statement stmt = null;
-        ResultSet rset = null;
+		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
 
 		try{
 			//PostgreSQLへ接続
 			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-            //自動コミットOFF
-            conn.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+			//自動コミットOFF
+			conn.setAutoCommit(false);
+			System.out.println("Opened database successfully");
 
-            //SELECT文の実行
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM T_DEPT";
-            rset = stmt.executeQuery(sql);
+			//SELECT文の実行
+			stmt = conn.createStatement();
+			String sql = "SELECT * FROM T_DEPT";
+			rset = stmt.executeQuery(sql);
 
-            size = 0;
-            //SELECT結果の受け取り、Integer.parseInt()を使ってintへ変換
-            while(rset.next()){
-            	no.add(rset.getInt("DEPT_NO"));
-            	name.add(rset.getString("DEPT_NAME"));
-            	size += 1;
-            }
-        }
-        catch (SQLException ex){
-        	for(Throwable e : ex ) {
-        		System.out.println("Error encountered: " + e);
-        	}
-        }
-        finally {
-            try {
-                if(rset != null)rset.close();
-                if(stmt != null)stmt.close();
-                if(conn != null)conn.close();
-            }
-            catch (SQLException ex){
-                ex.printStackTrace();
-            }
-        }
+			size = 0;
+			//SELECT結果の受け取り、Integer.parseInt()を使ってintへ変換
+			while(rset.next()){
+				no.add(rset.getInt("DEPT_NO"));
+				name.add(rset.getString("DEPT_NAME"));
+				size += 1;
+			}
+		}
+		catch (SQLException ex){
+			for(Throwable e : ex ) {
+				System.out.println("Error encountered: " + e);
+			}
+		}
+		finally {
+			try {
+				if(rset != null)rset.close();
+				if(stmt != null)stmt.close();
+				if(conn != null)conn.close();
+			}
+			catch (SQLException ex){
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	//サイズを示す

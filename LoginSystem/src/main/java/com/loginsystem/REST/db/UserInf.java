@@ -112,18 +112,22 @@ public class UserInf {
 		this.registerDate = rset.getString("RGST_DATE");
 		this.id = userId;
 
+		if(rset != null)rset.close();
+		if(stmt != null)stmt.close();
+		if(conn != null)conn.close();
 	}
 
 	// check the id & pw
-	public String checkIdPw() throws SQLException {
+	public int checkIdPw() throws SQLException {
 		return checkIdPw(id, pw);
 	}
 
-	public String checkIdPw(int checkId, String checkPw) throws SQLException {
+	public int checkIdPw(int checkId, String checkPw) throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
+		int statusCode;
 
 		//PostgreSQLへ接続
 		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
@@ -139,11 +143,16 @@ public class UserInf {
 		rset = stmt.executeQuery(sql);
 
 		if (!rset.next()) {
-			return "User " + checkId + " does not exist";
+			statusCode = 404; //No such ID
 		} else {
 			String truePw = rset.getString("USER_PW");
-			return truePw.equals(checkPw) ? "password correct" : "password incorrect";
+			statusCode = truePw.equals(checkPw) ? 200 : 401;
 		}
 
+		if(rset != null)rset.close();
+		if(stmt != null)stmt.close();
+		if(conn != null)conn.close();
+
+		return statusCode;
 	}
 }

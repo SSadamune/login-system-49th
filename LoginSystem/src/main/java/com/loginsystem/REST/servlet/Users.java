@@ -36,12 +36,12 @@ public class Users extends HttpServlet {
 
 			UserInf getUser = new UserInf();
 			getUser.selectFromDb(userId);
+			response.setStatus(200);
 			response.getWriter().append("user : " + getUser.getId() +"\n");
 			response.getWriter().append("name : " + getUser.getName() +"\n");
 
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException\n";
-			response.getWriter().append(sqlEx);
+			response.sendError(500, "unexpected SQL exception" );
 		}
 
 	}
@@ -68,10 +68,10 @@ public class Users extends HttpServlet {
 			postUser.setRgstDate(ft.format(dNow));
 
 			postUser.insertIntoDb();
-			response.getWriter().append("inserted correctly");
+			response.setStatus(201);//Created
+
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException\n";
-			response.getWriter().append(sqlEx);
+			response.sendError(500, "unexpected SQL exception" );
 		}
 
 	}
