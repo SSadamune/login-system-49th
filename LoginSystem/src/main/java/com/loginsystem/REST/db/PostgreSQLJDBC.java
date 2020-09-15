@@ -4,13 +4,17 @@ import java.sql.SQLException;
 
 public class PostgreSQLJDBC {
 	public static void main(String args[]) {
-
+		/*
 		//部署情報を取得
-		DeptList deptList = new DeptList();
+		try {
+			DeptList deptList = new DeptList();
 
-		System.out.println(deptList.getSize());
-		System.out.println(deptList.getNo());
-		System.out.println("------");
+			System.out.println(deptList.getSize());
+			System.out.println(deptList.getNo());
+			System.out.println("------");
+		} catch (SQLException ex) {
+			System.out.println("SQLException");
+		}
 
 		//ユーザー情報を挿入
 		UserInf testUser1 = new UserInf();
@@ -24,11 +28,7 @@ public class PostgreSQLJDBC {
 		try {
 			System.out.println(testUser1.insertIntoDb());
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException: \n";
-			for(Throwable e : ex ) {
-				sqlEx += e;
-			}
-			System.out.println(sqlEx);
+			System.out.println("SQLException");
 		}
 		System.out.println("------");
 
@@ -48,15 +48,12 @@ public class PostgreSQLJDBC {
 			System.out.println(currentUserDept);
 			System.out.println(currentUserRgstDate);
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException: \n";
-			for(Throwable e : ex ) {
-				sqlEx += e;
-			}
-			System.out.println(sqlEx);
+			System.out.println("SQLException");
 		}
 		System.out.println("------");
-
+		*/
 		//パスワード検証
+
 		try {
 			UserInf testUser3 = new UserInf();
 			System.out.println(testUser3.checkIdPw(1000005, "testPw"));
@@ -66,11 +63,8 @@ public class PostgreSQLJDBC {
 			testUser3.setPw("testPw");
 			System.out.println(testUser3.checkIdPw());
 		} catch (SQLException ex) {
-			String sqlEx = "SQLException: \n";
-			for(Throwable e : ex ) {
-				sqlEx += e;
-			}
-			System.out.println(sqlEx);
+			System.out.println("error code : " + ex.getErrorCode() + "\n");
+			System.out.println("error message : " + ex.getLocalizedMessage());
 		}
 		System.out.println("------");
 

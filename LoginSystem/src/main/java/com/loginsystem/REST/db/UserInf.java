@@ -63,25 +63,34 @@ public class UserInf {
 		Statement stmt = null;
 		ConnectDb cd = new ConnectDb();
 
+		try {
+			//PostgreSQLへ接続
+			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-		//PostgreSQLへ接続
-		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			//自動コミットOFF
+			conn.setAutoCommit(false);
+			System.out.println("Opened database successfully");
 
-		//自動コミットOFF
-		conn.setAutoCommit(false);
-		System.out.println("Opened database successfully");
-
-		//INSERT文の実行
-		stmt = conn.createStatement();
-		String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
-				+ id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + registerDate + "');";
-		stmt.executeUpdate(sql);
-		conn.commit();
-
-		if(stmt != null)stmt.close();
-		if(conn != null)conn.close();
-
-		return "id = " + id + "inserted correctly";
+			//INSERT文の実行
+			stmt = conn.createStatement();
+			String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
+					+ id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + registerDate + "');";
+			stmt.executeUpdate(sql);
+			conn.commit();
+		}
+		catch (SQLException ex){
+			throw ex;
+		}
+		finally {
+			try {
+				if(stmt != null)stmt.close();
+				if(conn != null)conn.close();
+			}
+			catch (SQLException ex){
+				ex.printStackTrace();
+			}
+		}
+		return "id = " + id + " inserted correctly";
 	}
 
 	//select all the inf. from t_user whose id = userId
@@ -91,30 +100,41 @@ public class UserInf {
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
 
+		try {
+			//PostgreSQLへ接続
+			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-		//PostgreSQLへ接続
-		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			//自動コミットOFF
+			conn.setAutoCommit(false);
+			System.out.println("Opened database successfully");
 
-		//自動コミットOFF
-		conn.setAutoCommit(false);
-		System.out.println("Opened database successfully");
+			//SELECT文の実行
+			stmt = conn.createStatement();
+			String sql = "select USER_NAME, DEPT_NO, RGST_DATE from T_USER \r\n" +
+					"where USER_ID = "+ userId +";";
+			rset = stmt.executeQuery(sql);
 
-		//SELECT文の実行
-		stmt = conn.createStatement();
-		String sql = "select USER_NAME, DEPT_NO, RGST_DATE from T_USER \r\n" +
-				"where USER_ID = "+ userId +";";
-		rset = stmt.executeQuery(sql);
+			//SELECT結果の受け取り
+			rset.next();
+			this.name = rset.getString("USER_NAME");
+			this.deptNo = rset.getInt("DEPT_NO");
+			this.registerDate = rset.getString("RGST_DATE");
+			this.id = userId;
 
-		//SELECT結果の受け取り
-		rset.next();
-		this.name = rset.getString("USER_NAME");
-		this.deptNo = rset.getInt("DEPT_NO");
-		this.registerDate = rset.getString("RGST_DATE");
-		this.id = userId;
-
-		if(rset != null)rset.close();
-		if(stmt != null)stmt.close();
-		if(conn != null)conn.close();
+		}
+		catch (SQLException ex){
+			throw ex;
+		}
+		finally {
+			try {
+				if(rset != null)rset.close();
+				if(stmt != null)stmt.close();
+				if(conn != null)conn.close();
+			}
+			catch (SQLException ex){
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	// check the id & pw
@@ -127,32 +147,42 @@ public class UserInf {
 		Statement stmt = null;
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
-		int statusCode;
+		int statusCode = 500;
+		try {
+			//PostgreSQLへ接続
+			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
-		//PostgreSQLへ接続
-		conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			//自動コミットOFF
+			conn.setAutoCommit(false);
+			System.out.println("Opened database successfully");
 
-		//自動コミットOFF
-		conn.setAutoCommit(false);
-		System.out.println("Opened database successfully");
+			//SELECT文の実行
+			stmt = conn.createStatement();
+			String sql = "select USER_PW from T_USER \r\n" +
+					"where USER_ID = " + checkId + ";";
+			rset = stmt.executeQuery(sql);
 
-		//SELECT文の実行
-		stmt = conn.createStatement();
-		String sql = "select USER_PW from T_USER \r\n" +
-				"where USER_ID = " + checkId + ";";
-		rset = stmt.executeQuery(sql);
-
-		if (!rset.next()) {
-			statusCode = 404; //No such ID
-		} else {
-			String truePw = rset.getString("USER_PW");
-			statusCode = truePw.equals(checkPw) ? 200 : 401;
+			if (!rset.next()) {
+				statusCode = 404; //No such ID
+			} else {
+				String truePw = rset.getString("USER_PW");
+				statusCode = truePw.equals(checkPw) ? 200 : 401;
+			}
 		}
-
-		if(rset != null)rset.close();
-		if(stmt != null)stmt.close();
-		if(conn != null)conn.close();
-
+		catch (SQLException ex){
+			throw ex;
+		}
+		finally {
+			try {
+				if(rset != null)rset.close();
+				if(stmt != null)stmt.close();
+				if(conn != null)conn.close();
+			}
+			catch (SQLException ex){
+				ex.printStackTrace();
+			}
+		}
 		return statusCode;
+
 	}
 }

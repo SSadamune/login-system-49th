@@ -14,7 +14,7 @@ import com.loginsystem.REST.db.UserInf;
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/api/v1.0/Password")
+@WebServlet("/api/v1.0/password")
 public class Password extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -56,12 +56,14 @@ public class Password extends HttpServlet {
 				response.sendError(401, "password incorrect" );
 				break;
 			case 404:
-				response.sendError(404, "user ID: " + checkUser.getId() + " not found" );
+				response.sendError(404, "userId: " + checkUser.getId() + " not found" );
 				break;
 			}
 
 		} catch (SQLException ex) {
-			response.sendError(500, "unexpected SQL exception" );
+			response.sendError(500, "unexpected SQL exception\n"
+					+ "sql state = " + ex.getSQLState() +"\n"
+					+ "error message: " + ex.getLocalizedMessage());
 		}
 
 	}

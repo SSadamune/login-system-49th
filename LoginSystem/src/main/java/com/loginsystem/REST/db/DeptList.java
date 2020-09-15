@@ -13,14 +13,13 @@ public class DeptList {
 	private ArrayList<String> name = new ArrayList<String>();
 
 	//構造メソッド：DBから情報を取得、パラメータを設定
-	public DeptList() {
+	public DeptList() throws SQLException{
 
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
 		ConnectDb cd = new ConnectDb();
-
-		try{
+		try {
 			//PostgreSQLへ接続
 			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
 
@@ -42,9 +41,7 @@ public class DeptList {
 			}
 		}
 		catch (SQLException ex){
-			for(Throwable e : ex ) {
-				System.out.println("Error encountered: " + e);
-			}
+			throw ex;
 		}
 		finally {
 			try {
@@ -56,6 +53,7 @@ public class DeptList {
 				ex.printStackTrace();
 			}
 		}
+
 	}
 
 	//サイズを示す

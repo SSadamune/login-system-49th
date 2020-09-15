@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.loginsystem.REST.db.UserInf;
 
-@WebServlet(value = {"/api/v1.0/Users","/api/v1.0/Users/*"})
+@WebServlet(value = {"/api/v1.0/users","/api/v1.0/users/*"})
 public class Users extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,24 +24,33 @@ public class Users extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* TODO
 		 * response the data of user
-		 * accept URL like "/Users?userId=1004" or "/Users/1004"
+		 * accept URL like "/users?userId=1004" or "/users/1004"
 		 */
 
-		String urlPath = request.getPathInfo();
 		response.setContentType("text/html;charset=UTF-8");
 
-		try {
-			String strUserId = urlPath == null ? request.getParameter("userId") : request.getPathInfo().substring(1);
-			int userId = Integer.parseInt(strUserId);
+		// urlPath = null or = "/1004", depend on the URL format
+		String urlPath = request.getPathInfo();
+		String strUserId = urlPath == null ? request.getParameter("userId") : urlPath.substring(1);
 
+		int userId = Integer.parseInt(strUserId);
+
+		try {
 			UserInf getUser = new UserInf();
 			getUser.selectFromDb(userId);
 			response.setStatus(200);
 			response.getWriter().append("user : " + getUser.getId() +"\n");
 			response.getWriter().append("name : " + getUser.getName() +"\n");
-
 		} catch (SQLException ex) {
-			response.sendError(500, "unexpected SQL exception" );
+			//sql state: https://www.postgresql.org/docs/8.4/errcodes-appendix.html
+			if (ex.getSQLState().equals("24000")) {
+				response.sendError(404, "userId: " + userId + " not found");
+			} else {
+				response.sendError(500, "unexpected SQL exception\n"
+						+ "sql state = " + ex.getSQLState() +"\n"
+						+ "error message: " + ex.getLocalizedMessage());
+			}
+
 		}
 
 	}
@@ -58,20 +67,30 @@ public class Users extends HttpServlet {
 		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 
 		//Validation未実装
+
+		UserInf postUser = new UserInf();
+
+		postUser.setId(Integer.parseInt(request.getParameter("userId")));
+		postUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
+		postUser.setName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
+		postUser.setDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
+		postUser.setRgstDate(ft.format(dNow));
+
 		try {
-			UserInf postUser = new UserInf();
-
-			postUser.setId(Integer.parseInt(request.getParameter("userId")));
-			postUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
-			postUser.setName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
-			postUser.setDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
-			postUser.setRgstDate(ft.format(dNow));
-
 			postUser.insertIntoDb();
 			response.setStatus(201);//Created
 
 		} catch (SQLException ex) {
-			response.sendError(500, "unexpected SQL exception" );
+			//sql state: https://www.postgresql.org/docs/8.4/errcodes-appendix.html
+			if (ex.getSQLState().equals("23503")) {
+				response.sendError(400, "deptNo: " + postUser.getDeptNo() + " unknown");
+			} else if (ex.getSQLState().equals("23505")) {
+				response.sendError(400, "userId: " + postUser.getId() + " exists");
+			} else {
+				response.sendError(500, "unexpected SQL exception\n"
+						+ "sql state = " + ex.getSQLState() +"\n"
+						+ "error message: " + ex.getLocalizedMessage());
+			}
 		}
 
 	}
