@@ -2,7 +2,7 @@ package com.loginsystem.REST.db;
 
 import java.sql.SQLException;
 
-public class PostgreSQLJDBC {
+public class TestJDBC {
 	public static void main(String args[]) {
 		/*
 		//部署情報を取得
@@ -52,8 +52,9 @@ public class PostgreSQLJDBC {
 		}
 		System.out.println("------");
 		*/
-		//パスワード検証
 
+
+		//パスワード検証
 		try {
 			UserInf testUser3 = new UserInf();
 			System.out.println(testUser3.checkIdPw(1000005, "testPw"));

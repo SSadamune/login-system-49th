@@ -96,6 +96,14 @@ public class UserInf {
 
 	}
 
+	public String getStr() {
+		return "User [id=" + id
+				+ ", name=" + name
+				+ ", deptNo="+ deptNo
+				+ ", registerDate=" + registerDate
+				+ "]";
+	}
+
 	//select all the inf. from t_user whose id = userId
 	public void selectFromDb(int userId) throws SQLException {
 		Connection conn = null;
