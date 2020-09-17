@@ -26,7 +26,7 @@ public class TestGson {
 
 		//2
 		int currentUserId = 1000003;
-		UserInf testUser = new UserInf();
+		UserInfo testUser = new UserInfo();
 		try {
 			testUser.selectFromDb(currentUserId);
 			String jstrUser = gson.toJson(testUser);
@@ -38,7 +38,7 @@ public class TestGson {
 
 		//3
 		String jstrUser = "{\"id\":1000040,\"name\":\"テスト\",\"dept_no\":1002,\"registerDate\":\"2020-09-17\"}";
-		UserInf testUser3 = gson.fromJson(jstrUser, UserInf.class);
+		UserInfo testUser3 = gson.fromJson(jstrUser, UserInfo.class);
 		System.out.println(gson.toJson(testUser3));
 	}
 

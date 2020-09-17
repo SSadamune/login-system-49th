@@ -36,7 +36,7 @@ public class TestJDBC {
 		//ユーザー情報を取得
 		int currentUserId = 1000003;
 
-		UserInf testUser2 = new UserInf();
+		UserInfo testUser2 = new UserInfo();
 		try {
 			String jsonUser2 = testUser2.selectFromDb(currentUserId);
 			System.out.println(jsonUser2);

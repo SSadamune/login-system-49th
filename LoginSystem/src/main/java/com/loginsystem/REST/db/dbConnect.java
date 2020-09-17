@@ -1,6 +1,6 @@
 package com.loginsystem.REST.db;
 
-public class ConnectDb {
+public class dbConnect {
 	/*
 	 * the connection of database
 	 * check the tables at main/resources/DBTables

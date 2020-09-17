@@ -2,8 +2,6 @@ package com.loginsystem.REST.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.loginsystem.REST.db.UserInf;
+import com.google.gson.Gson;
+import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.util.PostJsonReader;
 
 @WebServlet(value = {"/api/v1.0/users","/api/v1.0/users/*"})
 public class Users extends HttpServlet {
@@ -25,19 +25,19 @@ public class Users extends HttpServlet {
 			throws ServletException, IOException {
 		/* TODO
 		 * response information of user
-		 * accept URL like "/users?userId=1004" or "/users/1004"
+		 * accept URL like "/users?id=1004" or "/users/1004"
 		 */
 
 		response.setContentType("text/html;charset=UTF-8");
 
 		// urlPath = null or = "/1004", depend on the URL format
 		String urlPath = request.getPathInfo();
-		String strUserId = urlPath == null ? request.getParameter("userId") : urlPath.substring(1);
+		String strUserId = urlPath == null ? request.getParameter("id") : urlPath.substring(1);
 
 		int userId = Integer.parseInt(strUserId);
 
 		try {
-			UserInf getUser = new UserInf();
+			UserInfo getUser = new UserInfo();
 			getUser.selectFromDb(userId);
 			response.setStatus(200);
 			response.getWriter().append(getUser.toJson());
@@ -63,19 +63,19 @@ public class Users extends HttpServlet {
 		 * content-type:application/x-www-form-urlencoded
 		 * userId=(int)&userName=(String)&userDeptNo=(int)&userPw=(String)
 		 */
+		Gson gson = new Gson();
 		response.setContentType("text/html;charset=UTF-8");
 
-		Date dNow = new Date( );
-		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+		//String jStrPost = PostJsonReader.toString(request);
+		System.out.println(PostJsonReader.toString(request));
 
 		// Validation未実装
+//		UserInfo postUser = gson.fromJson(jStrPost, UserInfo.class);
+//		System.out.println(gson.toJson(postUser));
 
-		UserInf postUser = new UserInf();
-
-		postUser.setId(Integer.parseInt(request.getParameter("userId")));
-		postUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
-		postUser.setName(new String(request.getParameter("userName").getBytes("ISO8859-1"),"UTF-8"));
-		postUser.setDeptNo(Integer.parseInt(request.getParameter("userDeptNo")));
+		/*
+		Date dNow = new Date( );
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 		postUser.setRgstDate(ft.format(dNow));
 
 		try {
@@ -98,6 +98,8 @@ public class Users extends HttpServlet {
 						+ "error message: " + ex.getLocalizedMessage());
 			}
 		}
+		*/
+
 	}
 
 }

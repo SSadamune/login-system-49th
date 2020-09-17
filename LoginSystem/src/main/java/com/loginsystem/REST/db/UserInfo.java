@@ -8,10 +8,10 @@ import java.sql.Statement;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserInf {
-	@SerializedName(value = "id", alternate = {"user_Id", "userId"})
+public class UserInfo {
+	@SerializedName(value = "id", alternate = {"user_id", "userId"})
 	private int id;
-	@SerializedName(value = "pw", alternate = {"password", "userPw"})
+	@SerializedName(value = "pw", alternate = {"password", "user_pw", "userPw"})
 	private String pw;
 	@SerializedName(value = "name", alternate = {"user_name", "userName"})
 	private String name;
@@ -19,7 +19,7 @@ public class UserInf {
 	private int deptNo;
 	private String registerDate;
 
-	public UserInf() {
+	public UserInfo() {
 	}
 
 	//use there methods to assign user inf.
@@ -67,11 +67,11 @@ public class UserInf {
 	public String insertIntoDb() throws SQLException{
 		Connection conn = null;
 		Statement stmt = null;
-		ConnectDb cd = new ConnectDb();
+		dbConnect dc = new dbConnect();
 
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
@@ -108,11 +108,11 @@ public class UserInf {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
-		ConnectDb cd = new ConnectDb();
+		dbConnect dc = new dbConnect();
 
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
@@ -169,11 +169,12 @@ public class UserInf {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
-		ConnectDb cd = new ConnectDb();
+		dbConnect dc = new dbConnect();
+
 		int statusCode = 500;
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
 
 			//auto commit OFF
 			conn.setAutoCommit(false);

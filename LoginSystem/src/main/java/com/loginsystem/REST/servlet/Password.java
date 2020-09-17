@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.loginsystem.REST.db.UserInf;
+import com.loginsystem.REST.db.UserInfo;
 
 /**
  * Servlet implementation class Login
@@ -43,7 +43,7 @@ public class Password extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		try {
-			UserInf checkUser = new UserInf();
+			UserInfo checkUser = new UserInfo();
 			checkUser.setId(Integer.parseInt(request.getParameter("userId")));
 			checkUser.setPw(new String(request.getParameter("userPw").getBytes("ISO8859-1"),"UTF-8"));
 			int checkResult = checkUser.checkIdPw();

@@ -18,10 +18,10 @@ public class DeptList {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
-		ConnectDb cd = new ConnectDb();
+		dbConnect dc = new dbConnect();
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(cd.url(), cd.user(), cd.pw());
+			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
