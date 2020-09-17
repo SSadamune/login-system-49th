@@ -48,6 +48,8 @@ public class Password extends HttpServlet {
 		// request to json string
 		String jsonStrPost = PostReader.toJsonStr(request);
 
+		/* validation wait to do */
+
 		// json string to object
 		UserInfo checkUser = gson.fromJson(jsonStrPost, UserInfo.class);
 
@@ -73,10 +75,11 @@ public class Password extends HttpServlet {
 			}
 
 		} catch (SQLException ex) {
-			response.getWriter().write("{\"status\": \"unexpected exception\"}");
-//			response.sendError(500, "unexpected SQL exception\n"
-//					+ "sql state = " + ex.getSQLState() +"\n"
-//					+ "error message: " + ex.getLocalizedMessage());
+			response.getWriter().write("{\"status\": \"unexpected sql exception\"}");
+//					"error_message":  + ex.getSQLState() +"\n"
+//					 + ex.getLocalizedMessage());
 		}
+
 	}
+
 }

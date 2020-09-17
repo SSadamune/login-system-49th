@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +37,14 @@ public class Users extends HttpServlet {
 		String urlPath = request.getPathInfo();
 		String strUserId = urlPath == null ? request.getParameter("id") : urlPath.substring(1);
 
+		// validation of id
+		if ((strUserId == null) || !(Pattern.matches("[0-9]{1,8}", strUserId))) {
+			response.setStatus(400);
+			response.getWriter().write("{\"status\": \"id invalid\"}");
+			//"error_message": "Parameter userId invalid. Must be less than 8 digits.");
+			return ;
+		}
+
 		int userId = Integer.parseInt(strUserId);
 
 		try {
@@ -50,14 +59,16 @@ public class Users extends HttpServlet {
 			// sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
 			if (ex.getSQLState().equals("24000")) {
 				// INVALID CURSOR STATE
-				response.sendError(404, "userId: " + userId + " not found");
+				response.setStatus(404);
+				response.getWriter().write("{\"status\": \"user id not found\"}");
 
 			} else {
-				response.sendError(500, "unexpected SQL exception\n"
-						+ "sql state = " + ex.getSQLState() +"\n"
-						+ "error message: " + ex.getLocalizedMessage());
+				response.setStatus(500);
+				response.getWriter().write("{\"status\": \"unexpected sql exception\"}");
 			}
+
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -73,7 +84,8 @@ public class Users extends HttpServlet {
 		// request to json string
 		String jsonStrPost = PostReader.toJsonStr(request);
 
-		// Validation未実装
+		/* validation wait to do */
+
 		// json string to object
 		UserInfo postUser = gson.fromJson(jsonStrPost, UserInfo.class);
 
@@ -96,21 +108,21 @@ public class Users extends HttpServlet {
 				// FOREIGN KEY VIOLATION
 				response.setStatus(400);
 				response.getWriter().write("{\"status\": \"dept_no unknown\"}");
-				//response.sendError(400, "deptNo: " + postUser.getDeptNo() + " unknown");
+				//"error_message": "deptNo: " + postUser.getDeptNo() + " unknown";
 
 			} else if (ex.getSQLState().equals("23505")) {
 				// UNIQUE VIOLATION
 				response.setStatus(400);
 				response.getWriter().write("{\"status\": \"id exists\"}");
-				//response.sendError(400, "userId: " + postUser.getId() + " exists");
+				//"error_message":  "userId: " + postUser.getId() + " exists";
 
 			} else {
 				response.setStatus(500);
-				response.getWriter().write("{\"status\": \"unexpected exception\"}");
-//				response.sendError(500, "unexpected SQL exception\n"
-//						+ "sql state = " + ex.getSQLState() +"\n"
-//						+ "error message: " + ex.getLocalizedMessage());
+				response.getWriter().write("{\"status\": \"unexpected sql exception\"}");
+//						 "sql state = " + ex.getSQLState() +"\n"
+//						 "error message: " + ex.getLocalizedMessage());
 			}
+
 		}
 
 	}
