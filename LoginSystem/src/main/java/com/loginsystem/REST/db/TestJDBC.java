@@ -32,28 +32,21 @@ public class TestJDBC {
 		}
 		System.out.println("------");
 
-
+		*/
 		//ユーザー情報を取得
 		int currentUserId = 1000003;
 
 		UserInf testUser2 = new UserInf();
 		try {
-			testUser2.selectFromDb(currentUserId);
-
-			String currentUserName = testUser2.getName();
-			int currentUserDept = testUser2.getDeptNo();
-			String currentUserRgstDate = testUser2.getRgstDate();
-
-			System.out.println(currentUserName);
-			System.out.println(currentUserDept);
-			System.out.println(currentUserRgstDate);
+			String jsonUser2 = testUser2.selectFromDb(currentUserId);
+			System.out.println(jsonUser2);
 		} catch (SQLException ex) {
 			System.out.println("SQLException");
 		}
 		System.out.println("------");
-		*/
 
 
+		/*
 		//パスワード検証
 		try {
 			UserInf testUser3 = new UserInf();
@@ -69,8 +62,6 @@ public class TestJDBC {
 		}
 		System.out.println("------");
 
-
-		/*
 		try {
 
 		} catch (SQLException ex) {

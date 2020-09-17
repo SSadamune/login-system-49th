@@ -66,6 +66,13 @@ public class DeptList {
 		return no;
 	}
 
+	// return a json String
+	public String toJson() {
+		String jStr = "";
+		//
+		return jStr;
+	}
+
 }
 
 

@@ -40,8 +40,7 @@ public class Users extends HttpServlet {
 			UserInf getUser = new UserInf();
 			getUser.selectFromDb(userId);
 			response.setStatus(200);
-			response.getWriter().append("user : " + getUser.getId() +"\n");
-			response.getWriter().append("name : " + getUser.getName() +"\n");
+			response.getWriter().append(getUser.toJson());
 
 		} catch (SQLException ex) {
 			// sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html

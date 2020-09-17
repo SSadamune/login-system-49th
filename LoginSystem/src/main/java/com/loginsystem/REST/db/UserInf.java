@@ -6,10 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserInf {
+	@SerializedName(value = "id", alternate = {"user_Id", "userId"})
 	private int id;
+	@SerializedName(value = "pw", alternate = {"password", "userPw"})
 	private String pw;
+	@SerializedName(value = "name", alternate = {"user_name", "userName"})
 	private String name;
+	@SerializedName(value = "deptNo", alternate = {"dept_no", "userDeptNo"})
 	private int deptNo;
 	private String registerDate;
 
@@ -96,16 +102,9 @@ public class UserInf {
 
 	}
 
-	public String getStr() {
-		return "User [id=" + id
-				+ ", name=" + name
-				+ ", deptNo="+ deptNo
-				+ ", registerDate=" + registerDate
-				+ "]";
-	}
-
 	//select all the inf. from t_user whose id = userId
-	public void selectFromDb(int userId) throws SQLException {
+	//and return json String
+	public String selectFromDb(int userId) throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
@@ -146,6 +145,17 @@ public class UserInf {
 				throw ex;
 			}
 		}
+
+		return toJson();
+	}
+
+	// return a json String. replace "deptNo" by "dept_no"
+	public String toJson() {
+		return "{\"id\":" + id
+				+ ",\"name\":" + name
+				+ ",\"dept_no\":" + deptNo
+				+ ",\"registerDate\":" + registerDate
+				+ "}";
 	}
 
 	// check the id & pw
