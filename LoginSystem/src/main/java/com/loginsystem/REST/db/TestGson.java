@@ -37,9 +37,14 @@ public class TestGson {
 		System.out.println();
 
 		//3
-		String jstrUser = "{\"id\":1000040,\"name\":\"テスト\",\"dept_no\":1002,\"registerDate\":\"2020-09-17\"}";
+		String jstrUser = "{\"id\":1008,\"pw\":\"testpassword\",\"name\":\"名前1010\",\"deptNo\":1001,\"registerDate\":\"2020-09-17\"}";
 		UserInfo testUser3 = gson.fromJson(jstrUser, UserInfo.class);
 		System.out.println(gson.toJson(testUser3));
+		try {
+			testUser3.insertIntoDb();
+		} catch (SQLException ex) {
+			System.out.println("fail");
+		}
 	}
-
 }
+
