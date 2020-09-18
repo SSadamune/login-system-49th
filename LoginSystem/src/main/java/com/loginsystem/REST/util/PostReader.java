@@ -37,6 +37,7 @@ public class PostReader {
 		//jsonStr to jsonObject
 		UserInfo json = gson.fromJson(strJson, UserInfo.class);
 		return json;
+
 	}
 
 }

@@ -16,12 +16,14 @@ public class TestJDBC {
 			System.out.println("SQLException");
 		}
 
-		//ユーザー情報を挿入
-		UserInf testUser1 = new UserInf();
+		*/
 
-		testUser1.setId(1000005);
+		//ユーザー情報を挿入
+		UserInfo testUser1 = new UserInfo();
+
+		testUser1.setId(2001);
 		testUser1.setPw("testPw");
-		testUser1.setName("テストなまえ");
+		testUser1.setName("test名前");
 		testUser1.setDeptNo(1002);
 		testUser1.setRgstDate("2020-09-01");
 
@@ -32,7 +34,8 @@ public class TestJDBC {
 		}
 		System.out.println("------");
 
-		*/
+		/*
+		 *
 		//ユーザー情報を取得
 		int currentUserId = 1000003;
 
@@ -46,7 +49,7 @@ public class TestJDBC {
 		System.out.println("------");
 
 
-		/*
+
 		//パスワード検証
 		try {
 			UserInf testUser3 = new UserInf();

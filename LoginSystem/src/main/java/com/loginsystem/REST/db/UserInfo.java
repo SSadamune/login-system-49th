@@ -151,10 +151,11 @@ public class UserInfo {
 
 	// return a json String. replace "deptNo" by "dept_no"
 	public String toJson() {
-		return "{\"id\":" + id
-				+ ",\"name\":" + name
-				+ ",\"dept_no\":" + deptNo
-				+ ",\"registerDate\":" + registerDate
+//		return new Gson().toJson(this);
+		return "{\"id\": " + id
+				+ ",\"name\": \"" + name + "\""
+				+ ",\"dept_no\": " + deptNo
+				+ ",\"registerDate\": \"" + registerDate + "\""
 				+ "}";
 	}
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.util.JsonResponse;
 import com.loginsystem.REST.util.PostReader;
 
 /**
@@ -41,9 +42,7 @@ public class Password extends HttpServlet {
 		 * content-type:application/x-www-form-urlencoded
 		 * userId=(int)&userPw=(String)
 		 */
-
-		response.setContentType("text/html;charset=UTF-8");
-		Gson gson = new Gson();
+		response.setContentType("application/json;charset=UTF-8");
 
 		// request to json string
 		String jsonStrPost = PostReader.toJsonStr(request);
@@ -51,7 +50,7 @@ public class Password extends HttpServlet {
 		/* validation wait to do */
 
 		// json string to object
-		UserInfo checkUser = gson.fromJson(jsonStrPost, UserInfo.class);
+		UserInfo checkUser = new Gson().fromJson(jsonStrPost, UserInfo.class);
 
 		try {
 			int checkResult = checkUser.checkIdPw();
@@ -59,25 +58,23 @@ public class Password extends HttpServlet {
 			switch (checkResult) {
 			case 200:
 				response.setStatus(200);
-				response.getWriter().write("{\"status\": \"password correct\"}");
-				//Date dNow = new Date();
-				//SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
-				//response.getWriter().append(ft.format(dNow));
+				response.getWriter().write(JsonResponse.message("OK", "password correct"));
 				break;
 			case 401:
 				response.setStatus(401);
-				response.getWriter().write("{\"status\": \"password incorrect\"}");
+				response.getWriter().write(JsonResponse.message("Auth_failured", "password incorrect"));
 				break;
 			case 404:
 				response.setStatus(404);
-				response.getWriter().write("{\"status\": \"user id not found\"}");
+				response.getWriter().write(JsonResponse.message("not_found", "[id] not found"));
 				break;
 			}
 
 		} catch (SQLException ex) {
-			response.getWriter().write("{\"status\": \"unexpected sql exception\"}");
-//					"error_message":  + ex.getSQLState() +"\n"
-//					 + ex.getLocalizedMessage());
+			response.getWriter().write(JsonResponse.message("SQL_exception"
+					, "unexpected SQL Exception: " + ex.getSQLState()));
+			System.out.println(ex.getLocalizedMessage());
+
 		}
 
 	}

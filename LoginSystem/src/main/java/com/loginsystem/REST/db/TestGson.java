@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
+
 public class TestGson {
 
 	public static void main(String[] args) {
@@ -25,7 +26,7 @@ public class TestGson {
 		System.out.println();
 
 		//2
-		int currentUserId = 1000003;
+		int currentUserId = 2001;
 		UserInfo testUser = new UserInfo();
 		try {
 			testUser.selectFromDb(currentUserId);
@@ -45,6 +46,20 @@ public class TestGson {
 		} catch (SQLException ex) {
 			System.out.println("fail");
 		}
+
+		//4
+		String jstrUser4 = "{\"id\":1008,\"pw\":\"testpassword\",\"name\":\"名前1010\"}";
+		UserInfo testUser4 = gson.fromJson(jstrUser4, UserInfo.class);
+		System.out.println(gson.toJson(testUser4));
+		try {
+			System.out.println(testUser4.getDeptNo());
+			System.out.println(testUser4.getRgstDate());
+			testUser4.getRgstDate().matches("[a-z] {1,8}");
+		} catch (Exception ex) {
+			System.out.println("fail");
+		}
+
+
 	}
 }
 
