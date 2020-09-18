@@ -16,6 +16,7 @@ import com.loginsystem.REST.db.UserInfo;
 import com.loginsystem.REST.util.JsonResponse;
 import com.loginsystem.REST.util.PostReader;
 import com.loginsystem.REST.util.ValidChecker;
+import com.loginsystem.REST.util.insertExceptionResponse;
 
 @WebServlet(value = {"/api/v1.0/users","/api/v1.0/users/*"})
 public class Users extends HttpServlet {
@@ -112,27 +113,11 @@ public class Users extends HttpServlet {
 			response.setStatus(201);
 			response.getWriter().write(JsonResponse.message("OK", "register successfully"));
 
-		} catch (SQLException ex) {
+		} catch (SQLException e) {
 			// sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
-			if (ex.getSQLState().equals("23503")) {
-				// FOREIGN KEY VIOLATION
-				response.setStatus(400);
-				response.getWriter().write(JsonResponse.message("parameter_invalid",
-						"[dept_no] invalid. Check the dept list."));
-
-			} else if (ex.getSQLState().equals("23505")) {
-				// UNIQUE VIOLATION
-				response.setStatus(400);
-				response.getWriter().write(JsonResponse.message("parameter_invalid",
-						"[id] = " + postUser.getId() + " already exsits"));
-
-			} else {
-				response.setStatus(500);
-				response.getWriter().write(JsonResponse.message("SQL_exception"
-						, "unexpected SQL Exception: " + ex.getSQLState()));
-				System.out.println(ex.getLocalizedMessage());
-			}
-
+			insertExceptionResponse er = new insertExceptionResponse(e);
+			response.setStatus(er.getStatusCode());
+			response.getWriter().write(er.getErrorMessage());
 		}
 
 	}

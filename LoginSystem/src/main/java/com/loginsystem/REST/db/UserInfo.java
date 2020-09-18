@@ -183,8 +183,8 @@ public class UserInfo {
 					"where USER_ID = " + checkId + ";";
 			rset = stmt.executeQuery(sql);
 
+			//No such ID
 			if (!rset.next()) {
-				//No such ID
 				statusCode = 404;
 
 			} else {

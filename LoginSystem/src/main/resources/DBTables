@@ -1,7 +1,8 @@
-//user: postgres		pw:pwpsql
-//database: loginsystem
+user: postgres
+pw:pwpsql
+database: loginsystem
 
-//tables:
+tables:
 CREATE TABLE T_DEPT(
     DEPT_NO      INT          PRIMARY KEY    NOT NULL,
     DEPT_NAME    VARCHAR(20)  NOT NULL
