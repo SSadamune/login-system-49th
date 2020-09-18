@@ -67,11 +67,10 @@ public class UserInfo {
 	public String insertIntoDb() throws SQLException{
 		Connection conn = null;
 		Statement stmt = null;
-		dbConnect dc = new dbConnect();
 
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
+			conn = DriverManager.getConnection(db.url, db.user, db.pw);
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
@@ -108,11 +107,10 @@ public class UserInfo {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
-		dbConnect dc = new dbConnect();
 
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
+			conn = DriverManager.getConnection(db.url, db.user, db.pw);
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
@@ -159,23 +157,21 @@ public class UserInfo {
 				+ "}";
 	}
 
-	// check the id & pw
+	// check the id-pw pair of current instance
 	public int checkIdPw() throws SQLException {
-		// check properties of current object
 		return checkIdPw(id, pw);
 	}
 
-	public int checkIdPw(int checkId, String checkPw) throws SQLException {
-		// check any id-pw pair
+	// check any id-pw pair from input
+	public static int checkIdPw(int checkId, String checkPw) throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
-		dbConnect dc = new dbConnect();
 
 		int statusCode = 500;
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(dc.url(), dc.user(), dc.pw());
+			conn = DriverManager.getConnection(db.url, db.user, db.pw);
 
 			//auto commit OFF
 			conn.setAutoCommit(false);

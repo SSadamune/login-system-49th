@@ -5,6 +5,7 @@ import com.loginsystem.REST.db.UserInfo;
 public class ValidChecker {
 	private String message;
 
+	// error message
 	public String getMessage() {
 		return this.message;
 	}
@@ -12,6 +13,7 @@ public class ValidChecker {
 	public static boolean idValid (String id) {
 		return id != null && id.matches("[0-9]{1,8}");
 	}
+
 	public static boolean idValid (int id) {
 		return id > 0 && id < 100000000;
 	}
@@ -28,36 +30,45 @@ public class ValidChecker {
 	public static boolean deptNoValid (String deptNo) {
 		return deptNo != null && deptNo.matches("[0-9]{4}");
 	}
+
 	public static boolean deptNoValid (int deptNo) {
 		return deptNo > 999 && deptNo < 10000;
 	}
 
-	public boolean registerObjectValid (UserInfo user) {
+	// validation for POST /api/v1.0/users
+	public boolean objRegisterValid (UserInfo user) {
 		if (!idValid(user.getId())) {
 			message = "[id] invalid. Must be no more than 9 digits";
 			return false;
+
 		} else if (!pwValid(user.getPw())) {
 			message = "[pw] invalid. Must be 6 to 15 letters, numbers or ?!._ ";
 			return false;
+
 		} else if (!nameValid(user.getName())) {
 			message = "[name] invalid. Must be 1 to 20 alphabet, Katakana, Hiragana or Kanji";
 			return false;
+
 		} else if (!deptNoValid(user.getDeptNo())) {
 			message = "[dept_no] invalid. Must be 4 digits";
 			return false;
+
 		} else {
 			return true;
 		}
 
 	}
 
-	public boolean checkPasswordObjectValid (UserInfo user) {
+	// validation for POST /api/v1.0/password
+	public boolean objCheckPasswordValid (UserInfo user) {
 		if (!idValid(user.getId())) {
 			message = "[id] invalid. Must be no more than 9 digits";
 			return false;
+
 		} else if (!pwValid(user.getPw())) {
 			message = "[pw] invalid. Must be 6 to 15 letters, numbers or ?!._ ";
 			return false;
+
 		} else {
 			return true;
 		}

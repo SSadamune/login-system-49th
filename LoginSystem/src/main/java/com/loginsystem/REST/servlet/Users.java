@@ -33,7 +33,7 @@ public class Users extends HttpServlet {
 		 */
 		response.setContentType("application/json;charset=UTF-8");
 
-		// urlPath = null or = "/1004", depend on the URL format
+		// judge the URL pattern like "/users/1004" or "/users?id=1004"
 		String urlPath = request.getPathInfo();
 		String strUserId = urlPath == null ? request.getParameter("id") : urlPath.substring(1);;
 
@@ -47,6 +47,7 @@ public class Users extends HttpServlet {
 
 		int userId = Integer.parseInt(strUserId);
 
+		// select from DB
 		try {
 			UserInfo getUser = new UserInfo();
 			String jsonUser = getUser.selectFromDb(userId);
@@ -80,9 +81,8 @@ public class Users extends HttpServlet {
 		 */
 		response.setContentType("application/json;charset=UTF-8");
 
-
-		// request to object
-		// request example: {"id":1009,"pw":"testpassword","name":"名前1009","deptNo":1002}
+		// from request to Userinfo Object
+		// POST body example: {"id":1009,"pw":"testpassword","name":"名前1009","deptNo":1002}
 		UserInfo postUser = new UserInfo();
 		try {
 			postUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
@@ -97,7 +97,7 @@ public class Users extends HttpServlet {
 
 		ValidChecker vc = new ValidChecker();
 		// check validation of id, pw, name, deptNo
-		if (!(vc.registerObjectValid(postUser))) {
+		if (!(vc.objRegisterValid(postUser))) {
 			response.setStatus(400);
 			response.getWriter().write(JsonResponse.message("parameter_invalid", vc.getMessage()));
 			return ;

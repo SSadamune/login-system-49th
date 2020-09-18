@@ -1,9 +1,8 @@
-package com.loginsystem.REST.db;
-
 import java.sql.SQLException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.loginsystem.REST.db.UserInfo;
 import com.loginsystem.REST.util.ValidChecker;
 
 
@@ -75,7 +74,7 @@ public class TestGson {
 		String jstrUser5 = "{\"id\":1008,\"pw\":\"testpassword\",\"name\":\"名前1010\"}";
 		UserInfo testUser5 = gson.fromJson(jstrUser5, UserInfo.class);
 		// check validation of id, pw, name, deptNo
-		if (!(vc.registerObjectValid(testUser5))) {
+		if (!(vc.objRegisterValid(testUser5))) {
 			System.out.println(ValidChecker.idValid(testUser5.getId()));
 			System.out.println(vc.getMessage());
 		}

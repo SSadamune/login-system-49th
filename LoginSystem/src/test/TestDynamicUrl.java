@@ -1,5 +1,3 @@
-package com.loginsystem.REST.servlet;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;

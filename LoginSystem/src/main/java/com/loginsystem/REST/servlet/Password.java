@@ -22,9 +22,6 @@ import com.loginsystem.REST.util.ValidChecker;
 public class Password extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public Password() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -45,8 +42,8 @@ public class Password extends HttpServlet {
 		 */
 		response.setContentType("application/json;charset=UTF-8");
 
-		// request to object
-		// request example: {"id":1009,"pw":"testpassword"}
+		// from request to Userinfo Object
+		// POST body example: {"id":1009,"pw":"testpassword"}
 		UserInfo checkUser = new UserInfo();
 		try {
 			checkUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
@@ -61,12 +58,13 @@ public class Password extends HttpServlet {
 
 		ValidChecker vc = new ValidChecker();
 		// check validation of id, pw
-		if (!(vc.checkPasswordObjectValid(checkUser))) {
+		if (!(vc.objCheckPasswordValid(checkUser))) {
 			response.setStatus(400);
 			response.getWriter().write(JsonResponse.message("parameter_invalid", vc.getMessage()));
 			return ;
 		}
 
+		// check the password correct or not
 		try {
 			int checkResult = checkUser.checkIdPw();
 
