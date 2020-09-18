@@ -146,11 +146,11 @@ public class UserInfo {
 			}
 		}
 
-		return toJson();
+		return toJsonStr();
 	}
 
 	// return a json String. replace "deptNo" by "dept_no"
-	public String toJson() {
+	public String toJsonStr() {
 //		return new Gson().toJson(this);
 		return "{\"id\": " + id
 				+ ",\"name\": \"" + name + "\""

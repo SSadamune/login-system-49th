@@ -80,14 +80,27 @@ public class Users extends HttpServlet {
 		 */
 		response.setContentType("application/json;charset=UTF-8");
 
-		// request to json string
-		// like {"id":1009,"pw":"testpassword","name":"名前1009","deptNo":1002}
-		String jsonStrPost = PostReader.toJsonStr(request);
 
-		/* validation wait to do */
+		// request to object
+		// request example: {"id":1009,"pw":"testpassword","name":"名前1009","deptNo":1002}
+		UserInfo postUser = new UserInfo();
+		try {
+			postUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
+		} catch (Exception e) {
+			// data-type incorrect, such as id = "apple"
+			response.setStatus(400);
+			response.getWriter().write(JsonResponse.message("parameter_invalid",
+					"[(int)id], [(str)pw], [(str)name], [(int)dept_no] required"));
+			return ;
+		}
 
-		// json string to object
-		UserInfo postUser = new Gson().fromJson(jsonStrPost, UserInfo.class);
+		ValidChecker vc = new ValidChecker();
+		// check validation of id, pw, name, deptNo
+		if (!(vc.registerObjectValid(postUser))) {
+			response.setStatus(400);
+			response.getWriter().write(JsonResponse.message("parameter_invalid", vc.getMessage()));
+			return ;
+		}
 
 		// set register date
 		postUser.setRgstDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

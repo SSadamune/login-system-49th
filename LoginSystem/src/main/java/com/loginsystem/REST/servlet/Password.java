@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.loginsystem.REST.db.UserInfo;
 import com.loginsystem.REST.util.JsonResponse;
 import com.loginsystem.REST.util.PostReader;
+import com.loginsystem.REST.util.ValidChecker;
 
 /**
  * Servlet implementation class Login
@@ -44,13 +45,26 @@ public class Password extends HttpServlet {
 		 */
 		response.setContentType("application/json;charset=UTF-8");
 
-		// request to json string
-		String jsonStrPost = PostReader.toJsonStr(request);
+		// request to object
+		// request example: {"id":1009,"pw":"testpassword"}
+		UserInfo checkUser = new UserInfo();
+		try {
+			checkUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
+		} catch (Exception e) {
+			// data-type incorrect, such as id = "apple"
+			response.setStatus(400);
+			response.getWriter().write(JsonResponse.message("parameter_invalid",
+					"[(int)id], [(str)pw] required"));
+			return ;
+		}
 
-		/* validation wait to do */
-
-		// json string to object
-		UserInfo checkUser = new Gson().fromJson(jsonStrPost, UserInfo.class);
+		ValidChecker vc = new ValidChecker();
+		// check validation of id, pw, name, deptNo
+		if (!(vc.checkPasswordObjectValid(checkUser))) {
+			response.setStatus(400);
+			response.getWriter().write(JsonResponse.message("parameter_invalid", vc.getMessage()));
+			return ;
+		}
 
 		try {
 			int checkResult = checkUser.checkIdPw();

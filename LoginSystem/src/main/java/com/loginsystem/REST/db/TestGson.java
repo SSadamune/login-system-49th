@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.loginsystem.REST.util.ValidChecker;
 
 
 
@@ -21,11 +22,13 @@ public class TestGson {
 		System.out.println();
 
 		//1
+		System.out.println("----1----");
 		String [] stringArray = {"alpha", "bravo", "charlie"};
 		System.out.println(gson.toJson(stringArray));
 		System.out.println();
 
 		//2
+		System.out.println("----2----");
 		int currentUserId = 2001;
 		UserInfo testUser = new UserInfo();
 		try {
@@ -38,6 +41,7 @@ public class TestGson {
 		System.out.println();
 
 		//3
+		System.out.println("----3----");
 		String jstrUser = "{\"id\":1008,\"pw\":\"testpassword\",\"name\":\"名前1010\",\"deptNo\":1001,\"registerDate\":\"2020-09-17\"}";
 		UserInfo testUser3 = gson.fromJson(jstrUser, UserInfo.class);
 		System.out.println(gson.toJson(testUser3));
@@ -48,10 +52,13 @@ public class TestGson {
 		}
 
 		//4
-		String jstrUser4 = "{\"id\":1008,\"pw\":\"testpassword\",\"name\":\"名前1010\"}";
-		UserInfo testUser4 = gson.fromJson(jstrUser4, UserInfo.class);
-		System.out.println(gson.toJson(testUser4));
+		System.out.println("----4----");
+		String jstrUser4 = "{\"id\":1008.11,\"pw\":\"testpassword\",\"name\":\"名前1010\"}";
+
 		try {
+			UserInfo testUser4 = gson.fromJson(jstrUser4, UserInfo.class);
+			System.out.println(gson.toJson(testUser4));
+			System.out.println(testUser4.getId());
 			System.out.println(testUser4.getDeptNo());
 			System.out.println(testUser4.getRgstDate());
 			testUser4.getRgstDate().matches("[a-z] {1,8}");
@@ -59,6 +66,16 @@ public class TestGson {
 			System.out.println("fail");
 		}
 
+		//5
+		System.out.println("----5----");
+		ValidChecker vc = new ValidChecker();
+		String jstrUser5 = "{\"id\":1008,\"pw\":\"testpassword\",\"name\":\"名前1010\"}";
+		UserInfo testUser5 = gson.fromJson(jstrUser5, UserInfo.class);
+		// check validation of id, pw, name, deptNo
+		if (!(vc.registerObjectValid(testUser5))) {
+			System.out.println(ValidChecker.idValid(testUser5.getId()));
+			System.out.println(vc.getMessage());
+		}
 
 	}
 }
