@@ -86,6 +86,7 @@ public class Users extends HttpServlet {
 		UserInfo postUser = new UserInfo();
 		try {
 			postUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
+
 		} catch (Exception e) {
 			// data-type incorrect, such as id = "apple"
 			response.setStatus(400);

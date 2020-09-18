@@ -14,11 +14,13 @@ public class PostReader {
 		// read request
 		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
 		StringBuilder sb = new StringBuilder();
+
 		try {
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}
+
 		} catch (Exception e) {
 			throw e;
 		} finally {

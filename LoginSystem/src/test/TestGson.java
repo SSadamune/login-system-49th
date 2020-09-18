@@ -35,6 +35,7 @@ public class TestGson {
 			testUser.selectFromDb(currentUserId);
 			String jstrUser = gson.toJson(testUser);
 			System.out.println(jstrUser);
+
 		} catch (SQLException ex) {
 			System.out.println("SQLException");
 		}
@@ -47,6 +48,7 @@ public class TestGson {
 		System.out.println(gson.toJson(testUser3));
 		try {
 			testUser3.insertIntoDb();
+
 		} catch (SQLException ex) {
 			System.out.println("fail");
 		}
@@ -62,6 +64,7 @@ public class TestGson {
 			System.out.println(testUser4.getDeptNo());
 			System.out.println(testUser4.getRgstDate());
 			testUser4.getRgstDate().matches("[a-z] {1,8}");
+
 		} catch (Exception ex) {
 			System.out.println("fail");
 		}
@@ -78,5 +81,6 @@ public class TestGson {
 		}
 
 	}
+
 }
 

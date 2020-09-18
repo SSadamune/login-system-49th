@@ -48,6 +48,7 @@ public class ValidChecker {
 		} else {
 			return true;
 		}
+
 	}
 
 	public boolean checkPasswordObjectValid (UserInfo user) {
@@ -60,5 +61,7 @@ public class ValidChecker {
 		} else {
 			return true;
 		}
+
 	}
+
 }

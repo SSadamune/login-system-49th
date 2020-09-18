@@ -50,6 +50,7 @@ public class Password extends HttpServlet {
 		UserInfo checkUser = new UserInfo();
 		try {
 			checkUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
+
 		} catch (Exception e) {
 			// data-type incorrect, such as id = "apple"
 			response.setStatus(400);
@@ -59,7 +60,7 @@ public class Password extends HttpServlet {
 		}
 
 		ValidChecker vc = new ValidChecker();
-		// check validation of id, pw, name, deptNo
+		// check validation of id, pw
 		if (!(vc.checkPasswordObjectValid(checkUser))) {
 			response.setStatus(400);
 			response.getWriter().write(JsonResponse.message("parameter_invalid", vc.getMessage()));
