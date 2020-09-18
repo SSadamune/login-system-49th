@@ -2,7 +2,7 @@ import java.sql.SQLException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.database.UserInfo;
 import com.loginsystem.REST.util.ValidChecker;
 
 

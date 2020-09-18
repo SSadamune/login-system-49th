@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.database.UserInfo;
 import com.loginsystem.REST.util.JsonResponse;
 import com.loginsystem.REST.util.PostReader;
 import com.loginsystem.REST.util.ValidChecker;
@@ -24,7 +24,6 @@ public class Password extends HttpServlet {
 
 	public Password() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

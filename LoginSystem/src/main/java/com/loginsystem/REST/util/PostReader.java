@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
-import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.database.UserInfo;
 
 public class PostReader {
 	// from request to jsonStr

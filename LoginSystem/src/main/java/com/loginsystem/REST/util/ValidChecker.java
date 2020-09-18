@@ -1,6 +1,6 @@
 package com.loginsystem.REST.util;
 
-import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.database.UserInfo;
 
 public class ValidChecker {
 	private String message;
@@ -19,7 +19,7 @@ public class ValidChecker {
 	}
 
 	public static boolean pwValid (String pw) {
-		return pw != null && pw.matches("[0-9a-zA-Z_\\.\\?!]{6,15}");
+		return pw != null && pw.matches("[0-9a-zA-Z_\\.\\?!]{6,16}");
 	}
 
 	public static boolean nameValid (String name) {
@@ -38,11 +38,11 @@ public class ValidChecker {
 	// validation for POST /api/v1.0/users
 	public boolean objRegisterValid (UserInfo user) {
 		if (!idValid(user.getId())) {
-			message = "[id] invalid. Must be no more than 9 digits";
+			message = "[id] invalid. Must be no more than 8 digits";
 			return false;
 
 		} else if (!pwValid(user.getPw())) {
-			message = "[pw] invalid. Must be 6 to 15 letters, numbers or ?!._ ";
+			message = "[pw] invalid. Must be 6 to 16 letters, numbers or ?!._ ";
 			return false;
 
 		} else if (!nameValid(user.getName())) {

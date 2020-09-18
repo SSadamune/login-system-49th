@@ -1,7 +1,7 @@
 import java.sql.SQLException;
 
-import com.loginsystem.REST.db.DeptList;
-import com.loginsystem.REST.db.UserInfo;
+import com.loginsystem.REST.database.DeptList;
+import com.loginsystem.REST.database.UserInfo;
 
 public class TestJDBC {
 	public static void main(String args[]) {
@@ -11,7 +11,7 @@ public class TestJDBC {
 			DeptList deptList = new DeptList();
 
 			System.out.println(deptList.getSize());
-			System.out.println(deptList.getNo());
+			System.out.println(deptList.getListNo());
 			System.out.println("------");
 		} catch (SQLException ex) {
 			System.out.println("SQLException");

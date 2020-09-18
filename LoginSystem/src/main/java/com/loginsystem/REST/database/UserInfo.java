@@ -1,4 +1,4 @@
-package com.loginsystem.REST.db;
+package com.loginsystem.REST.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,7 +28,7 @@ public class UserInfo {
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setPw(String userPw) {
@@ -36,7 +36,7 @@ public class UserInfo {
 	}
 
 	public String getPw() {
-		return pw;
+		return this.pw;
 	}
 
 	public void setName(String userName) {
@@ -44,7 +44,7 @@ public class UserInfo {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setDeptNo(int userDeptNo) {
@@ -52,7 +52,7 @@ public class UserInfo {
 	}
 
 	public int getDeptNo() {
-		return deptNo;
+		return this.deptNo;
 	}
 
 	public void setRgstDate(String userRegisterDate) {
@@ -60,7 +60,7 @@ public class UserInfo {
 	}
 
 	public String getRgstDate() {
-		return registerDate;
+		return this.registerDate;
 	}
 
 	//insert user inf. into table t_user
@@ -70,7 +70,7 @@ public class UserInfo {
 
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(db.url, db.user, db.pw);
+			conn = DriverManager.getConnection(DBConnect.url, DBConnect.user, DBConnect.pw);
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
@@ -110,7 +110,7 @@ public class UserInfo {
 
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(db.url, db.user, db.pw);
+			conn = DriverManager.getConnection(DBConnect.url, DBConnect.user, DBConnect.pw);
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
@@ -171,7 +171,7 @@ public class UserInfo {
 		int statusCode = 500;
 		try {
 			//connect PostgreSQL
-			conn = DriverManager.getConnection(db.url, db.user, db.pw);
+			conn = DriverManager.getConnection(DBConnect.url, DBConnect.user, DBConnect.pw);
 
 			//auto commit OFF
 			conn.setAutoCommit(false);
