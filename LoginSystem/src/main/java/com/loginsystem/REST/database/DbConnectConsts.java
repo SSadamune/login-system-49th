@@ -1,7 +1,7 @@
 package com.loginsystem.REST.database;
 
 //the connect information of database
-public class DBConnect {
+public class DbConnectConsts {
 	public static final String url = "jdbc:postgresql://localhost:5432/loginsystem";
 	public static final String user = "postgres";
 	public static final String pw = "pwpsql";
