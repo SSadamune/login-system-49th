@@ -7,7 +7,7 @@ import com.loginsystem.REST.util.ValidChecker;
 
 
 
-public class TestGson {
+public class GsonTest {
 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ

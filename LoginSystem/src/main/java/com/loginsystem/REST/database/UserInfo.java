@@ -94,12 +94,12 @@ public class UserInfo {
                 + "}";
     }
 
-    // check the id-pw pair of current instance, return status code
+    // match the id-pw pair from the member variables, return status code
     public int authStatus() throws SQLException {
         return authStatus(id, pw);
     }
 
-    // check any id-pw pair from input, return status code
+    // match any id-pw pair from input, return status code
     public static int authStatus(int checkId, String checkPw) throws SQLException {
         int statusCode = 500;
         String sql =  "select USER_PW from T_USER where USER_ID = " + checkId + ";";

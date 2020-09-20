@@ -28,36 +28,37 @@ public class Password extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        response.getWriter().append("Served at: ").append(request.getContextPath());
+        // TODO Guide users to use the post method
+        response.setStatus(400);
+        response.getWriter().write(JsonResponse.statusData("method_invalid",
+                "use POST method to check a [id][pw] pair"));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         /* TODO
-         * check the password is correct or not
-         * content-type:application/x-www-form-urlencoded
-         * userId=(int)&userPw=(String)
+         * Check whether the ID password pair matches
+         * content-type of post body: application/json
+         * such as {"id":1009,"pw":"testpassword"}
          */
         response.setContentType("application/json;charset=UTF-8");
 
-        // from request to Userinfo Object
-        // POST body example: {"id":1009,"pw":"testpassword"}
+        // get Userinfo Object from request
         UserInfo checkUser = new UserInfo();
         try {
             checkUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
 
         } catch (Exception e) {
-            // data-type incorrect, such as id = "apple"
+            // case data-type invalid, such as id = "apple" (should be integer)
             response.setStatus(400);
             response.getWriter().write(JsonResponse.statusData("parameter_invalid",
-                    "[(int)id], [(str)pw] required"));
+                    "[(int)id] and [(str)pw] are required"));
             return ;
         }
 
         ValidChecker vc = new ValidChecker();
-        // check validation of id, pw
         if (!(vc.objCheckPasswordValid(checkUser))) {
+            // case any parameter invalid, such as id = 1234567890 (too long)
             response.setStatus(400);
             response.getWriter().write(JsonResponse.statusData("parameter_invalid", vc.getMessage()));
             return ;
@@ -83,6 +84,7 @@ public class Password extends HttpServlet {
             }
 
         } catch (SQLException ex) {
+            // unexpected sql exception
             response.getWriter().write(JsonResponse.statusData("sql_exception",
                     "{\"sql_state\": \"" + ex.getSQLState() +
                     "\", \"error_message\": \"" + ex.getLocalizedMessage() + "\"}"));

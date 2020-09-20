@@ -5,7 +5,7 @@ import com.loginsystem.REST.database.UserInfo;
 import com.loginsystem.REST.util.InsertExceptionResponse;
 import com.loginsystem.REST.util.JsonResponse;
 
-public class TestJDBC {
+public class JDBCTest {
     public static void main(String args[]) {
 
         //部署情報を取得

@@ -28,7 +28,8 @@ public class InsertExceptionResponse {
 		} else {
 			statusCode = 500;
 			this.errorMessage = JsonResponse.statusData("sql_exception",
-			        "{\"sql_state\": \"" + ex.getSQLState() + "\", \"error_message\": \"" + ex.getMessage() + "\"}");
+			        "{\"sql_state\": \"" + ex.getSQLState() +
+			        "\", \"error_message\": \"" + ex.getMessage() + "\"}");
 		}
 
 		// about sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
