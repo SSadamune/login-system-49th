@@ -88,9 +88,9 @@ public class UserInfo {
     // return a json String. replace "deptNo" by "dept_no"
     public String toJsonStr() {
         return "{\"id\": " + id
-                + ",\"name\": \"" + name + "\""
-                + ",\"dept_no\": " + deptNo
-                + ",\"registerDate\": \"" + registerDate + "\""
+                + ", \"name\": \"" + name + "\""
+                + ", \"dept_no\": " + deptNo
+                + ", \"registerDate\": \"" + registerDate + "\""
                 + "}";
     }
 

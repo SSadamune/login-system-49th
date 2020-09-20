@@ -19,7 +19,7 @@ public class ValidChecker {
     }
 
     public static boolean pwValid (String pw) {
-        return pw != null && pw.matches("[0-9a-zA-Z_\\.\\?!]{6,16}");
+        return pw != null && pw.matches("[0-9a-zA-Z\\.\\?!_]{6,16}");
     }
 
     public static boolean nameValid (String name) {

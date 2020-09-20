@@ -34,7 +34,7 @@ public class Users extends HttpServlet {
          */
         response.setContentType("application/json;charset=UTF-8");
 
-        // judge the URL pattern like "/users/1004" or "/users?id=1004"
+        // Determine the URL pattern is like "/users/1004" or "/users?id=1004"
         String urlPath = request.getPathInfo();
         String strUserId = urlPath == null ? request.getParameter("id") : urlPath.substring(1);;
 

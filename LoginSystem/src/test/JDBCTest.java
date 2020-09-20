@@ -11,9 +11,8 @@ public class JDBCTest {
         //部署情報を取得
         try {
             DeptList deptList = new DeptList();
-
-            System.out.println(deptList.getSize());
             System.out.println(deptList.getListNo());
+            System.out.println(deptList.toJson());
             System.out.println("------");
         } catch (SQLException ex) {
             InsertExceptionResponse er = new InsertExceptionResponse(ex);
