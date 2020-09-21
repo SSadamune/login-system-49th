@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.loginsystem.REST.database.UserInfo;
-import com.loginsystem.REST.util.JsonResponse;
+import com.loginsystem.REST.util.JsonString;
 import com.loginsystem.REST.util.PostReader;
 import com.loginsystem.REST.util.ValidChecker;
 
@@ -30,7 +30,7 @@ public class Password extends HttpServlet {
             throws ServletException, IOException {
         // TODO Guide users to use the post method
         response.setStatus(400);
-        response.getWriter().write(JsonResponse.statusData("method_invalid",
+        response.getWriter().write(JsonString.responseBody("method_invalid",
                 "use POST method to check a [id][pw] pair"));
     }
 
@@ -51,7 +51,7 @@ public class Password extends HttpServlet {
         } catch (Exception e) {
             // case data-type invalid, such as id = "apple" (should be integer)
             response.setStatus(400);
-            response.getWriter().write(JsonResponse.statusData("parameter_invalid",
+            response.getWriter().write(JsonString.responseBody("parameter_invalid",
                     "[(int)id] and [(str)pw] are required"));
             return ;
         }
@@ -61,7 +61,7 @@ public class Password extends HttpServlet {
         if (!(vc.isIdPwValid(checkUser))) {
             // case any parameter invalid, such as id = 1234567890 (too long)
             response.setStatus(400);
-            response.getWriter().write(JsonResponse.statusData("parameter_invalid", vc.getMessage()));
+            response.getWriter().write(JsonString.responseBody("parameter_invalid", vc.getMessage()));
             return ;
         }
 
@@ -72,21 +72,22 @@ public class Password extends HttpServlet {
             switch (checkResult) {
             case 200:
                 response.setStatus(200);
-                response.getWriter().write(JsonResponse.statusData("OK", "password correct"));
+                response.getWriter().write(JsonString.responseBody("OK", "password correct"));
                 break;
             case 401:
                 response.setStatus(401);
-                response.getWriter().write(JsonResponse.statusData("Auth_failured", "password incorrect"));
+                response.getWriter().write(JsonString.responseBody("Auth_failured", "password incorrect"));
                 break;
             case 404:
                 response.setStatus(404);
-                response.getWriter().write(JsonResponse.statusData("not_found", "[id] not found"));
+                response.getWriter().write(JsonString.responseBody("not_found", "[id] not found"));
                 break;
             }
 
         } catch (SQLException ex) {
             // unexpected sql exception
-            response.getWriter().write(JsonResponse.statusData("sql_exception",
+            response.setStatus(500);
+            response.getWriter().write(JsonString.responseBody("sql_exception",
                     "{\"sql_state\": \"" + ex.getSQLState() +
                     "\", \"error_message\": \"" + ex.getLocalizedMessage() + "\"}"));
 

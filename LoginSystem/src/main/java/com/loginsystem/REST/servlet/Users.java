@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.loginsystem.REST.database.UserInfo;
-import com.loginsystem.REST.util.InsertExceptionResponse;
-import com.loginsystem.REST.util.JsonResponse;
+import com.loginsystem.REST.util.JsonString;
 import com.loginsystem.REST.util.PostReader;
+import com.loginsystem.REST.util.SqlExceptionResponse;
 import com.loginsystem.REST.util.ValidChecker;
 
 @WebServlet(value = {"/api/v1.0/users","/api/v1.0/users/*"})
@@ -30,18 +30,18 @@ public class Users extends HttpServlet {
             throws ServletException, IOException {
         /* TODO
          * response information of user
-         * accept URL like "/users?id=1004" or "/users/1004"
+         * accept URL as "/users?id=1004" or "/users/1004"
          */
         response.setContentType("application/json;charset=UTF-8");
 
-        // Determine the URL pattern is like "/users/1004" or "/users?id=1004"
+        // Determine the URL pattern as "/users?id=1004" or "/users/1004"
         String urlPath = request.getPathInfo();
         String strUserId = urlPath == null ? request.getParameter("id") : urlPath.substring(1);;
 
         // check validation of id
         if (!(ValidChecker.idValid(strUserId))) {
             response.setStatus(400);
-            response.getWriter().write(JsonResponse.statusData("parameter_invalid",
+            response.getWriter().write(JsonString.responseBody("parameter_invalid",
                     "[id] invalid. Must be a number less than 9 digits."));
             return ;
         }
@@ -53,22 +53,12 @@ public class Users extends HttpServlet {
             UserInfo getUser = new UserInfo();
             String jsonUser = getUser.selectFromDb(userId);
             response.setStatus(200);
-            response.getWriter().write(JsonResponse.statusData("got_it!", jsonUser));
+            response.getWriter().write(JsonString.responseBody("got_it!", jsonUser));
 
         } catch (SQLException ex) {
-            if (ex.getSQLState().equals("24000")) {
-                // case the user id was not found
-                response.setStatus(404);
-                response.getWriter().write(JsonResponse.statusData("not_found", "[id] = " + userId + " not found"));
-
-            } else {
-                // unexpected sql exception
-                response.setStatus(500);
-                response.getWriter().write(JsonResponse.statusData("sql_exception",
-                        "{\"sql_state\": \"" + ex.getSQLState() +
-                        "\", \"error_message\": \"" + ex.getLocalizedMessage() + "\"}"));
-
-            }
+            SqlExceptionResponse expRsp = new SqlExceptionResponse("get users", ex);
+            response.setStatus(expRsp.getStatusCode());
+            response.getWriter().write(expRsp.getErrorMessage());
 
         }
 
@@ -91,7 +81,7 @@ public class Users extends HttpServlet {
         } catch (Exception e) {
             // case data-type invalid, such as id = "apple" (should be integer)
             response.setStatus(400);
-            response.getWriter().write(JsonResponse.statusData("parameter_invalid",
+            response.getWriter().write(JsonString.responseBody("parameter_invalid",
                     "[(int)id], [(str)pw], [(str)name], [(int)dept_no] required"));
             return ;
         }
@@ -100,7 +90,7 @@ public class Users extends HttpServlet {
         // case any parameter invalid, such as id = 1234567890 (too long)
         if (!(vc.isRegisterDataValid(postUser))) {
             response.setStatus(400);
-            response.getWriter().write(JsonResponse.statusData("parameter_invalid", vc.getMessage()));
+            response.getWriter().write(JsonString.responseBody("parameter_invalid", vc.getMessage()));
             return ;
         }
 
@@ -111,11 +101,11 @@ public class Users extends HttpServlet {
         try {
             postUser.insertIntoDb();
             response.setStatus(201);
-            response.getWriter().write(JsonResponse.statusData("OK", "register successfully"));
+            response.getWriter().write(JsonString.responseBody("OK", "register successfully"));
 
-        } catch (SQLException e) {
+        } catch (SQLException ex) {
             // sql exception
-            InsertExceptionResponse expRsp = new InsertExceptionResponse(e);
+            SqlExceptionResponse expRsp = new SqlExceptionResponse("post users", ex);
             response.setStatus(expRsp.getStatusCode());
             response.getWriter().write(expRsp.getErrorMessage());
         }
