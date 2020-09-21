@@ -56,8 +56,9 @@ public class Password extends HttpServlet {
             return ;
         }
 
+        // confirm the validation
         ValidChecker vc = new ValidChecker();
-        if (!(vc.objCheckPasswordValid(checkUser))) {
+        if (!(vc.isIdPwValid(checkUser))) {
             // case any parameter invalid, such as id = 1234567890 (too long)
             response.setStatus(400);
             response.getWriter().write(JsonResponse.statusData("parameter_invalid", vc.getMessage()));

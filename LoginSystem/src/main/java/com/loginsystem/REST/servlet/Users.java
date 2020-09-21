@@ -56,13 +56,13 @@ public class Users extends HttpServlet {
             response.getWriter().write(JsonResponse.statusData("got_it!", jsonUser));
 
         } catch (SQLException ex) {
-            // sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
             if (ex.getSQLState().equals("24000")) {
-                // INVALID CURSOR STATE
+                // case the user id was not found
                 response.setStatus(404);
                 response.getWriter().write(JsonResponse.statusData("not_found", "[id] = " + userId + " not found"));
 
             } else {
+                // unexpected sql exception
                 response.setStatus(500);
                 response.getWriter().write(JsonResponse.statusData("sql_exception",
                         "{\"sql_state\": \"" + ex.getSQLState() +
@@ -78,19 +78,18 @@ public class Users extends HttpServlet {
             throws ServletException, IOException {
         /* TODO
          * insert data into table
-         * content-type:application/x-www-form-urlencoded
-         * userId=(int)&userName=(String)&userDeptNo=(int)&userPw=(String)
+         * content-type of post body: application/json
+         * such as {"id":1009, "pw":"testpassword", "name":"名前1009", "deptNo":1002}
          */
         response.setContentType("application/json;charset=UTF-8");
 
-        // from request to Userinfo Object
-        // POST body example: {"id":1009,"pw":"testpassword","name":"名前1009","deptNo":1002}
+        // get Userinfo Object from request
         UserInfo postUser = new UserInfo();
         try {
             postUser = new Gson().fromJson(PostReader.toJsonStr(request), UserInfo.class);
 
         } catch (Exception e) {
-            // data-type incorrect, such as id = "apple"
+            // case data-type invalid, such as id = "apple" (should be integer)
             response.setStatus(400);
             response.getWriter().write(JsonResponse.statusData("parameter_invalid",
                     "[(int)id], [(str)pw], [(str)name], [(int)dept_no] required"));
@@ -98,8 +97,8 @@ public class Users extends HttpServlet {
         }
 
         ValidChecker vc = new ValidChecker();
-        // check validation of id, pw, name, deptNo
-        if (!(vc.objRegisterValid(postUser))) {
+        // case any parameter invalid, such as id = 1234567890 (too long)
+        if (!(vc.isRegisterDataValid(postUser))) {
             response.setStatus(400);
             response.getWriter().write(JsonResponse.statusData("parameter_invalid", vc.getMessage()));
             return ;
@@ -115,10 +114,10 @@ public class Users extends HttpServlet {
             response.getWriter().write(JsonResponse.statusData("OK", "register successfully"));
 
         } catch (SQLException e) {
-            // sql state: www.postgresql.org/docs/8.4/errcodes-appendix.html
-            InsertExceptionResponse er = new InsertExceptionResponse(e);
-            response.setStatus(er.getStatusCode());
-            response.getWriter().write(er.getErrorMessage());
+            // sql exception
+            InsertExceptionResponse expRsp = new InsertExceptionResponse(e);
+            response.setStatus(expRsp.getStatusCode());
+            response.getWriter().write(expRsp.getErrorMessage());
         }
 
     }

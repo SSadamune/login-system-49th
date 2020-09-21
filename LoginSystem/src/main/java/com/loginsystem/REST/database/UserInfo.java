@@ -20,7 +20,7 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    //use there methods to assign user inf.
+    // use there methods to assign user inf.
     public void setId(int userId) {
         this.id = userId;
     }
@@ -61,20 +61,20 @@ public class UserInfo {
         return this.registerDate;
     }
 
-    //insert user inf. into table t_user
+    // insert user info into table t_user
     public void insertIntoDb() throws SQLException{
         String sql = "INSERT INTO T_USER (USER_ID, USER_PW, USER_NAME, DEPT_NO, RGST_DATE) VALUES("
                 + id + ",'" + pw + "', '" + name + "', '" + deptNo + "', '" + registerDate + "');";
         DbAccess.insert(sql);
     }
 
-    //select all the inf. from t_user whose id = userId
-    //and return json String
+    // select the info by id from t_user
+    // return a json String
     public String selectFromDb(int userId) throws SQLException {
         String sql = "select USER_NAME, DEPT_NO, RGST_DATE from T_USER " +
                 "where USER_ID = "+ userId +";";
         try (ResultSet rset = DbAccess.select(sql)) {
-            //get the SELECT result
+            // get the SELECT result
             rset.next();
             this.name = rset.getString("USER_NAME");
             this.deptNo = rset.getInt("DEPT_NO");

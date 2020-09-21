@@ -14,6 +14,7 @@ public class InsertExceptionResponse {
 		return this.errorMessage;
 	}
 
+	// response-body when exception occurs at [POST /api/v1.0/users]
 	public InsertExceptionResponse(SQLException ex) {
 		if (ex.getSQLState().equals("23503")) {
 			// FOREIGN KEY VIOLATION

@@ -35,8 +35,8 @@ public class ValidChecker {
         return deptNo > 999 && deptNo < 10000;
     }
 
-    // validation for POST /api/v1.0/users
-    public boolean objRegisterValid (UserInfo user) {
+    // validation for [POST /api/v1.0/users]
+    public boolean isRegisterDataValid (UserInfo user) {
         if (!idValid(user.getId())) {
             message = "[id] invalid. Must be no more than 8 digits";
             return false;
@@ -59,8 +59,8 @@ public class ValidChecker {
 
     }
 
-    // validation for POST /api/v1.0/password
-    public boolean objCheckPasswordValid (UserInfo user) {
+    // validation for [POST /api/v1.0/password]
+    public boolean isIdPwValid (UserInfo user) {
         if (!idValid(user.getId())) {
             message = "[id] invalid. Must be no more than 9 digits";
             return false;
