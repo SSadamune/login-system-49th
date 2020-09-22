@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.google.gson.annotations.SerializedName;
 import com.loginsystem.REST.util.DbAccess;
+import com.loginsystem.REST.util.JsonString;
 
 public class UserInfo {
     @SerializedName(value = "id", alternate = {"user_id", "userId"})
@@ -87,11 +88,7 @@ public class UserInfo {
 
     // return a json String. replace "deptNo" by "dept_no"
     public String toJsonStr() {
-        return "{\"id\": " + id
-                + ", \"name\": \"" + name + "\""
-                + ", \"dept_no\": " + deptNo
-                + ", \"registerDate\": \"" + registerDate + "\""
-                + "}";
+        return JsonString.userInfo(this);
     }
 
     // match the id-pw pair from the member variables, return status code

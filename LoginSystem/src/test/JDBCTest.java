@@ -2,8 +2,7 @@ import java.sql.SQLException;
 
 import com.loginsystem.REST.database.DeptList;
 import com.loginsystem.REST.database.UserInfo;
-import com.loginsystem.REST.util.InsertExceptionResponse;
-import com.loginsystem.REST.util.JsonResponse;
+import com.loginsystem.REST.util.JsonString;
 
 public class JDBCTest {
     public static void main(String args[]) {
@@ -15,9 +14,10 @@ public class JDBCTest {
             System.out.println(deptList.toJson());
             System.out.println("------");
         } catch (SQLException ex) {
-            InsertExceptionResponse er = new InsertExceptionResponse(ex);
-            System.out.println(er.getStatusCode());
-            System.out.println(er.getErrorMessage());
+            System.out.println(500);
+            System.out.println(JsonString.responseBody("sql_exception",
+                    "{\"sql_state\": \"" + ex.getSQLState() +
+                    "\", \"error_message\": \"" + ex.getLocalizedMessage() + "\"}"));
         }
 
 
@@ -34,7 +34,7 @@ public class JDBCTest {
             testUser1.insertIntoDb();
             System.out.println("success");
         } catch (SQLException ex) {
-            System.out.println(JsonResponse.statusData("sql_exception",
+            System.out.println(JsonString.responseBody("sql_exception",
                     "{\"sql_state\": \"" + ex.getSQLState() +
                     "\", \"error_message\": \"" + ex.getLocalizedMessage() + "\"}"));
         }

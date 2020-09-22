@@ -10,33 +10,33 @@ import com.google.gson.Gson;
 import com.loginsystem.REST.database.UserInfo;
 
 public class PostReader {
-	// from request to jsonStr
-	public static String toJsonStr(HttpServletRequest request) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
-		StringBuilder sb = new StringBuilder();
+    // from request to jsonStr
+    public static String toJsonStr(HttpServletRequest request) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8"));
+        StringBuilder sb = new StringBuilder();
 
-		try {
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
+        try {
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
 
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			br.close();
-		}
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            br.close();
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	// from request to UserInfo Object
-	public static UserInfo toUserObj(HttpServletRequest request) throws IOException {
-		Gson gson = new Gson();
-		String strJson = toJsonStr(request);
-		UserInfo json = gson.fromJson(strJson, UserInfo.class);
+    // from request to UserInfo Object
+    public static UserInfo toUserObj(HttpServletRequest request) throws IOException {
+        Gson gson = new Gson();
+        String strJson = toJsonStr(request);
+        UserInfo json = gson.fromJson(strJson, UserInfo.class);
 
-		return json;
-	}
+        return json;
+    }
 
 }

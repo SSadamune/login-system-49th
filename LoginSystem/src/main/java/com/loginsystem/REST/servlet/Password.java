@@ -88,8 +88,7 @@ public class Password extends HttpServlet {
             // unexpected sql exception
             response.setStatus(500);
             response.getWriter().write(JsonString.responseBody("sql_exception",
-                    "{\"sql_state\": \"" + ex.getSQLState() +
-                    "\", \"error_message\": \"" + ex.getLocalizedMessage() + "\"}"));
+                    JsonString.unexpectedSqlException(ex.getSQLState(), ex.getLocalizedMessage())));
 
         }
 

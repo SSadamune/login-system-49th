@@ -41,8 +41,7 @@ public class SqlExceptionResponse {
         } else {
             statusCode = 500;
             this.jsonBody = JsonString.responseBody("sql_exception",
-                    "{\"sql_state\": \"" + ex.getSQLState() +
-                    "\", \"error_message\": \"" + ex.getMessage() + "\"}");
+                    JsonString.unexpectedSqlException(ex.getSQLState(), ex.getLocalizedMessage()));
         }
 
     }
@@ -57,8 +56,7 @@ public class SqlExceptionResponse {
         } else {
             statusCode = 500;
             this.jsonBody = JsonString.responseBody("sql_exception",
-                    "{\"sql_state\": \"" + ex.getSQLState() +
-                    "\", \"error_message\": \"" + ex.getMessage() + "\"}");
+                    JsonString.unexpectedSqlException(ex.getSQLState(), ex.getLocalizedMessage()));
         }
 
     }

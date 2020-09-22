@@ -56,6 +56,7 @@ public class Users extends HttpServlet {
             response.getWriter().write(JsonString.responseBody("got_it!", jsonUser));
 
         } catch (SQLException ex) {
+            // use class SqlExceptionResponse to generate response body
             SqlExceptionResponse expRsp = new SqlExceptionResponse("get users", ex);
             response.setStatus(expRsp.getStatusCode());
             response.getWriter().write(expRsp.getErrorMessage());
@@ -101,7 +102,7 @@ public class Users extends HttpServlet {
         try {
             postUser.insertIntoDb();
             response.setStatus(201);
-            response.getWriter().write(JsonString.responseBody("OK", "register successfully"));
+            response.getWriter().write(JsonString.responseBody("user_info_created", postUser.toJsonStr()));
 
         } catch (SQLException ex) {
             // sql exception
