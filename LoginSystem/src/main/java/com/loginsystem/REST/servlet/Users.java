@@ -42,7 +42,7 @@ public class Users extends HttpServlet {
         if (!(ValidChecker.idValid(strUserId))) {
             response.setStatus(400);
             response.getWriter().write(JsonString.responseBody("parameter_invalid",
-                    "[id] invalid. Must be a number less than 9 digits."));
+                    "[id] invalid. Must be 8 digits."));
             return ;
         }
 

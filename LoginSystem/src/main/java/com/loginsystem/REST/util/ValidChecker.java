@@ -11,11 +11,11 @@ public class ValidChecker {
     }
 
     public static boolean idValid (String id) {
-        return id != null && id.matches("[0-9]{1,8}");
+        return id != null && id.matches("[0-9]{8}");
     }
 
     public static boolean idValid (int id) {
-        return id > 0 && id < 100000000;
+        return id >= 10_000_000 && id <= 99_999_999;
     }
 
     public static boolean pwValid (String pw) {
@@ -32,13 +32,13 @@ public class ValidChecker {
     }
 
     public static boolean deptNoValid (int deptNo) {
-        return deptNo > 999 && deptNo < 10000;
+        return deptNo >= 1000 && deptNo <= 9999;
     }
 
     // validation for [POST /api/v1.0/users]
     public boolean isRegisterDataValid (UserInfo user) {
         if (!idValid(user.getId())) {
-            message = "[id] invalid. Must be no more than 8 digits";
+            message = "[id] invalid. Must be 8 digits";
             return false;
 
         } else if (!pwValid(user.getPw())) {
